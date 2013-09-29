@@ -45,6 +45,7 @@ def player_health(health,player,shield):
     if shield > 0:
         playershield = str(shield)
         drawText(playershield,font,windowSurface,healthlocation[0]+25,healthlocation[1]-50,(0,255,255))
+
 def enemy_health(health,enemy):
     enemyhealth = str(health)
     healthlocation = enemy[1].topleft
@@ -228,7 +229,7 @@ def battle(place,player,enemy):
                     if player[2].cls == 'warlock':
                         ability2 = warlock_shield()
                         ability2[1].topleft = (150,350)
-                        player[2].f_ability2()
+                    player[2].f_ability2()
                     alive = damage(enemy[2],player[2],alive)
                     if player[2].shield != 0:
                         #windowSurface.blit(place[0],place[1])
