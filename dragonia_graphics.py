@@ -56,6 +56,63 @@ def gameover():
     data = [gameoverImage, gameoverRect]
     return data
 
+def cleric_empowerment():
+    empImage = pygame.image.load('cleric_empowerment_dragonia.png')
+    empRect = empImage.get_rect()
+    data = [empImage,empRect]
+    return data
+
+def cleric_holyblow():
+    hbImage = pygame.image.load('cleric_holyblow_dragonia.png')
+    hbRect= hbImage.get_rect()
+    data = [hbImage,hbRect]
+    return data
+
+def warlock_shield():
+    shieldImage = pygame.image.load('warlock_bloodshield_dragonia.png')
+    shieldRect = shieldImage.get_rect()
+    data = [shieldImage,shieldRect]
+    return data
+
+def mage_shield():
+    shieldImage = pygame.image.load('mage_shield_dragonia.png')
+    shieldRect = shieldImage.get_rect()
+    data = [shieldImage,shieldRect]
+    return data
+
+def mage_fireball():
+    fireballImage = pygame.image.load('mage_fireball_dragonia.png')
+    fireballRect = fireballImage.get_rect()
+    data = [fireballImage,fireballRect]
+    return data
+
+def dragonia():
+    dragonImage = pygame.image.load('dragonia.png')
+    dragonRect = dragonImage.get_rect()
+    data = [dragonImage,dragonRect]
+    return data
+
+def abilityone(ability1,place,enemy_place,plyr,enemy,player):
+    i = 0
+    while i != 6:
+        if player[2].cls == 'mage':
+            ability1[1].topleft = (220+(i*50),290)
+        elif player[2].cls == 'cleric':
+            ability1[1].topleft = (220+(i*50),400)
+        windowSurface.blit(place[0],place[1])
+        windowSurface.blit(enemy_place[0],enemy_place[1])
+        windowSurface.blit(plyr[0],plyr[1])
+        windowSurface.blit(ability1[0], ability1[1])
+        enemy_health(enemy[2].health,enemy_place)
+        player_health(player[2].health,plyr,player[2].shield)
+        if player[2].shield != 0:
+            ability2 = mage_shield()
+            ability2[1].topleft = (150,350)
+            windowSurface.blit(ability2[0],ability2[1])
+        pygame.display.update()
+        time.sleep(0.2)
+        i += 1
+        
 def terminate():
     pygame.quit()
     sys.exit()
@@ -104,7 +161,8 @@ def battle(place,player,enemy):
         img = pygame.image.load('warlock_dragonia.png')
         rect = img.get_rect()
         plyr = [img,rect]
-    enemy_place = enemy    
+    enemy_place = enemy
+    ability1 = []
     plyr[1].topleft = (200,400)
     enemy_place[1].topleft = (500,200)
     enemy_place[0] = pygame.transform.scale(enemy[0],(300,330))
@@ -113,6 +171,12 @@ def battle(place,player,enemy):
 ##    player_place[1].topleft = (200,400)
 ##    enemy_place[1].topleft = (500,200)
 ##    enemy_place[0] = pygame.transform.scale(enemy[0],(300,330))
+    if player[2].cls == 'mage':
+        ability2 = mage_shield()
+        ability2[1].topleft = (150,350)
+    if player[2].cls == 'warlock':
+        ability2 = warlock_shield()
+        ability2[1].topleft = (150,350)
     while alive[2] == True:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -122,23 +186,62 @@ def battle(place,player,enemy):
                 if event.key == K_ESCAPE:
                     terminate()   
                 if event.key == ord('1'):
+                    if player[2].cls == 'mage':
+                        #print "IM A MAGE"
+                        ability1 = mage_fireball()
+                    if player[2].cls == 'cleric':
+                        ability1 = cleric_holyblow()
+                    if ability1 != []:
+                        abilityone(ability1,place,enemy_place,plyr,enemy,player)
+                    windowSurface.blit(place[0],place[1])
+                    windowSurface.blit(enemy_place[0],enemy_place[1])
+                    windowSurface.blit(plyr[0],plyr[1])
+                    enemy_health(enemy[2].health,enemy_place)
+                    player_health(player[2].health,plyr,player[2].shield)
                     player[2].f_ability0()
                     enemy[2].f_ability0()
+                    if player[2].shield != 0:
+                        windowSurface.blit(ability2[0],ability2[1])
                     alive = damage(enemy[2],player[2],alive)
                     pygame.display.update()
                     time.sleep(2)
 
                 if event.key == ord('2'):
                     player[2].f_ability1()
-                    enemy[2].f_ability0()
+                    if player[2].cls == 'mage':
+                        ability2 = mage_shield()
+                        ability2[1].topleft = (150,350)
                     alive = damage(enemy[2],player[2],alive)
+                    if player[2].shield != 0:
+                        #windowSurface.blit(place[0],place[1])
+                        windowSurface.blit(enemy_place[0],enemy_place[1])
+                        windowSurface.blit(plyr[0],plyr[1])
+                        enemy_health(enemy[2].health,enemy_place)
+                        player_health(player[2].health,plyr,player[2].shield)
+                        windowSurface.blit(ability2[0],ability2[1])
+                        pygame.display.update()
+                    enemy[2].f_ability0()
                     pygame.display.update()
                     time.sleep(1)
                   
                 if event.key == ord('3'):
-                    player[2].f_ability2()
-                    enemy[2].f_ability0()
+                    if player[2].cls == 'warlock':
+                        ability2 = warlock_shield()
+                        ability2[1].topleft = (150,350)
+                        player[2].f_ability2()
                     alive = damage(enemy[2],player[2],alive)
+                    if player[2].shield != 0:
+                        #windowSurface.blit(place[0],place[1])
+                        windowSurface.blit(enemy_place[0],enemy_place[1])
+                        windowSurface.blit(plyr[0],plyr[1])
+                        enemy_health(enemy[2].health,enemy_place)
+                        player_health(player[2].health,plyr,player[2].shield)
+                        windowSurface.blit(ability2[0],ability2[1])
+                        pygame.display.update()
+                    if player[2].cls != 'mage':
+                        enemy[2].f_ability0()
+                    else:
+                        drawText('Ability Not Available Yet!',font,windowSurface,0,0,TEXTCOLOR)
                     pygame.display.update()
                     time.sleep(1)
                 
@@ -150,7 +253,10 @@ def battle(place,player,enemy):
         windowSurface.blit(place[0],place[1])
         windowSurface.blit(enemy_place[0],enemy_place[1])
         windowSurface.blit(plyr[0],plyr[1])
+        if player[2].shield != 0:
+            windowSurface.blit(ability2[0],ability2[1])
         enemy_health(enemy[2].health,enemy_place)
+        ability1 = []
         if alive[0] == True and alive[1] == False:
             player[2].f_level()
             player_health(player[2].health,plyr,player[2].shield)
@@ -191,7 +297,7 @@ def all_enemies(enemies,locations):
 
 def pick_hero(heroes):
     pygame.display.update()
-    drawText('Welcome to Dragonia', font, windowSurface, 0, 0,(255,255,255))
+    drawText('Welcome to Dragonia', font, windowSurface, 0, 0,(0,0,0))
     drawText('Mage(1)', font, windowSurface, 0, 30,(65,105,225))
     drawText('Warrior(2)',font,windowSurface,100, 30,(178,34,34))
     drawText('Cleric(3)',font,windowSurface,225, 30,(0,255,255))
@@ -206,32 +312,36 @@ def pick_hero(heroes):
                 if event.key == K_ESCAPE:
                     terminate()   
                 if event.key == ord('1'):
-                    windowSurface.fill(BACKGROUNDCOLOR)
-                    drawText('You chose Mage!',font,windowSurface,0,0,TEXTCOLOR)
+                    #windowSurface.fill(BACKGROUNDCOLOR)
+                    windowSurface.blit(dragonia[0],dragonia[1])
+                    drawText('You chose Mage!',font,windowSurface,0,0,(0,0,0))
                     pygame.display.update()
                     time.sleep(1)
                     choice = 0
                     class_ = mage('Kripte')
                     choosing = False
                 if event.key == ord('2'):
-                    windowSurface.fill(BACKGROUNDCOLOR)
-                    drawText('You chose Warrior!',font,windowSurface,0,0,TEXTCOLOR)
+                    #windowSurface.fill(BACKGROUNDCOLOR)
+                    windowSurface.blit(dragonia[0],dragonia[1])
+                    drawText('You chose Warrior!',font,windowSurface,0,0,(0,0,0))
                     pygame.display.update()
                     time.sleep(1)
                     choice = 1
                     class_ = warrior('Kripte')
                     choosing = False
                 if event.key == ord('3'):
-                    windowSurface.fill(BACKGROUNDCOLOR)
-                    drawText('You chose Cleric!',font,windowSurface,0,0,TEXTCOLOR)
+                    #windowSurface.fill(BACKGROUNDCOLOR)
+                    windowSurface.blit(dragonia[0],dragonia[1])
+                    drawText('You chose Cleric!',font,windowSurface,0,0,(0,0,0))
                     pygame.display.update()
                     time.sleep(1)
                     choice = 2
                     class_ = cleric('Kripte')
                     choosing = False
                 if event.key == ord('4'):
-                    windowSurface.fill(BACKGROUNDCOLOR)
-                    drawText('You chose Warlock!',font,windowSurface,0,0,TEXTCOLOR)
+                    #windowSurface.fill(BACKGROUNDCOLOR)
+                    windowSurface.blit(dragonia[0],dragonia[1])
+                    drawText('You chose Warlock!',font,windowSurface,0,0,(0,0,0))
                     pygame.display.update()
                     time.sleep(1)
                     choice = 3
@@ -276,6 +386,8 @@ locations = [(120,20),(240,20),(360,20),(480,20),(600,20),(720,20),(0,130),(120,
 enemies = ['ogre.png','snake.png','garg_dragonia_small.png','dragon.png','cyclops.png']
 #enemy = pick_enemy(enemies)
 
+#set up load screen
+dragonia = dragonia()
 #test
 the_enemies = all_enemies(enemies,locations)
 #topScore = 0
@@ -286,7 +398,8 @@ while True:
     moveLeft = moveRight = moveUp = moveDown = False
     pygame.mixer.music.play(-1, 0.0)
     heroes = ['mage_dragonia.png','warrior_dragonia.png','cleric_dragonia.png','warlock_dragonia.png']
-    windowSurface.fill(BACKGROUNDCOLOR)
+    #windowSurface.fill(BACKGROUNDCOLOR)
+    windowSurface.blit(dragonia[0],dragonia[1])
     player = pick_hero(heroes)
     player[1].topleft = (0,20)
     the_enemies = all_enemies(enemies,locations)
@@ -336,8 +449,9 @@ while True:
 
        
         # Draw the game world on the window.
-        windowSurface.fill(BACKGROUNDCOLOR)
-
+        #windowSurface.fill(BACKGROUNDCOLOR)
+        windowSurface.blit(dragonia[0],dragonia[1])
+        
         # Draw the player's rectangle
         windowSurface.blit(player[0], player[1])
         draw_enemies(the_enemies)
@@ -347,7 +461,16 @@ while True:
         while j!= len(the_enemies):
             enemy_health(the_enemies[j][2].health,the_enemies[j])
             j += 1
-           
+
+        if player[2].shield != 0:
+                if player[2].cls == 'mage':
+                    ability2 = mage_shield()
+                elif player[2].cls == 'warlock':
+                    ability2 = warlock_shield()
+                current_loc = player[1].topleft
+                ability2[1].topleft =  (current_loc[0]-50,current_loc[1]-50)
+                windowSurface.blit(ability2[0],ability2[1])
+                
         # Check if any of the enemies have hit the player.
         current_enemy = playerHasHitEnemy(player[1], the_enemies)
         if current_enemy != -1:
@@ -365,6 +488,14 @@ while True:
                     break
             draw_enemies(the_enemies)
             windowSurface.blit(player[0], player[1])
+            if player[2].shield != 0:
+                if player[2].cls == 'mage':
+                    ability2 = mage_shield()
+                elif player[2].cls == 'warlock':
+                    ability2 = warlock_shield()
+                current_loc = player[1].topleft
+                ability2[1].topleft =  (current_loc[0]-50,current_loc[1]-50)
+                windowSurface.blit(ability2[0],ability2[1])
         pygame.display.update()   
         mainClock.tick(FPS)
 

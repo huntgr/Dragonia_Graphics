@@ -294,7 +294,6 @@ class warrior:
     
     def f_ability1(self):
     	self.tactics = 3
-    	dam = str(self.damage)
         drawText('Your prepare yourself for battle!',font,windowSurface,0,0,TEXTCOLOR)
     	print "You prepare your self for battle!"
     	
