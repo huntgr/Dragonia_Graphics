@@ -1,6 +1,26 @@
 import random
 import sys
 import time
+import pygame
+
+WINDOWWIDTH = 896
+WINDOWHEIGHT = 504
+TEXTCOLOR = (255,255,255)
+BACKGROUNDCOLOR = (0,0,0)
+pygame.init()
+font = pygame.font.SysFont('centaur', 30)
+mainClock = pygame.time.Clock()
+windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
+
+
+def drawText(text, font, surface, x, y, color):
+    textobj = font.render(text, 1, color)
+    textrect = textobj.get_rect()
+    #print textrect
+    textrect.topleft = (x, y)
+    surface.blit(textobj, textrect)
+
+
 class warlock:
     def __init__(self,name):
         self.cls = 'warlock'
@@ -36,11 +56,16 @@ class warlock:
         miss = random.randrange(1,100)
         if miss <= self.miss:
             self.damage = 0
+            drawText('You MISS completely!',font,windowSurface,0,0,TEXTCOLOR)
             print "You MISS completely!"
         elif crit <= self.crit:
             self.damage = damage*2
             heal_control = round(((self.wisdom/2)+((self.stamina*11)/self.health))/3, 0)
             self.health += (self.damage/5)+heal_control
+            dam = str(self.damage)
+            heal = str((self.damage/5)+heal_control)
+            drawText('Your Power Siphon hits for '+dam,font,windowSurface,0,0,TEXTCOLOR)
+            drawText('and heals you for '+heal,font,windowSurface,0,25,TEXTCOLOR)
             print 'Your Power Siphon {0} for {1} damage.'.format(self.dict[5],self.damage)
             print 'and heals you for {0}.'.format((self.damage/5)+heal_control)
             
@@ -48,6 +73,10 @@ class warlock:
             self.damage = damage
             heal_control = round(((self.wisdom/2)+((self.stamina*11)/self.health))/3, 0)
             self.health += (damage/6)+heal_control
+            dam = str(self.damage)
+            heal = str((damage/6)+heal_control)
+            drawText('Your Power Siphon hits for '+dam,font,windowSurface,0,0,TEXTCOLOR)
+            drawText('and heals you for '+heal,font,windowSurface,0,25,TEXTCOLOR)
             print 'Your Power Siphon {0} for {1} damage.'.format(self.dict[random.randrange(0,4)],self.damage)
             print 'and heals you for {0}.'.format((damage/6)+heal_control)
             
@@ -59,16 +88,27 @@ class warlock:
         if miss <= self.miss:
             self.damage = 0
             self.health -= sac_hp
+            dam = str(sac_hp)
+            drawText('Your MISS completely!',font,windowSurface,0,0,TEXTCOLOR)
+            drawText(dam+' health consumed.',font,windowSurface,0,25,TEXTCOLOR)
             print "You MISS completely!"
             print "{0} health consumed.".format(sac_hp)
         elif crit <= self.crit:
             self.damage = damage*2
             self.health -= sac_hp
+            dam = str(self.damage)
+            hp = str(sac_hp)
+            drawText('Your Entropic Assault crits for '+dam,font,windowSurface,0,0,TEXTCOLOR)
+            drawText(hp+' health consumed.',font,windowSurface,0,25,TEXTCOLOR)
             print "Your Entropic Assault crits for {0} damage.".format(self.damage)
             print "{0} health consumed.".format(sac_hp)
         else:
             self.damage = damage
             self.health -= sac_hp
+            dam = str(self.damage)
+            hp = str(sac_hp)
+            drawText('Your Entropic Assault crits for '+dam,font,windowSurface,0,0,TEXTCOLOR)
+            drawText(hp+' health consumed.',font,windowSurface,0,25,TEXTCOLOR)
             print "Your Entropic Assault deals {0} damage.".format(self.damage)
             print "{0} health consumed.".format(sac_hp)
             
@@ -78,6 +118,9 @@ class warlock:
     	sac_shield = self.health*0.3
     	self.health -= sac_hp
     	self.shield += sac_shield
+    	shield = str(sac_shield)
+    	hp = str(sac_hp)
+    	drawText('You sacrafice '+hp+' health for '+shield+' shield',font,windowSurface,0,25,TEXTCOLOR)
     	print "You sacrafice {0} health for {1} shield.".format(sac_hp, sac_shield)
     	
     def f_health(self):
@@ -92,6 +135,8 @@ class warlock:
         self.miss = 100/self.intellect
         self.crit = self.intellect
         self.lvl += 1
+        lvl = str(self.lvl)
+        drawText('You reached level '+lvl,font,windowSurface,0,0,TEXTCOLOR)
         print "\nYou've reached level {0}".format(self.lvl)
     def f_sword(self):
         self.intellect += 30
@@ -138,17 +183,24 @@ class mage:
         miss = random.randrange(1,100)
         if miss <= self.miss:
             self.damage = 0
+            drawText('You MISS completely!',font,windowSurface,0,0,TEXTCOLOR)
             print "You MISS completely!"
         elif crit <= self.crit:
             self.damage = damage*2
+            dam = str(self.damage)
+            drawText('Your Fireball CRITS for '+dam,font,windowSurface,0,0,TEXTCOLOR)
             print 'Your Fireball {0} for {1} damage.'.format(self.dict[5],self.damage)
         else:
             self.damage = damage
+            dam = str(self.damage)
+            drawText('Your Fireball hits for '+dam,font,windowSurface,0,0,TEXTCOLOR)
             print 'Your Fireball {0} for {1} damage.'.format(self.dict[random.randrange(0,4)],self.damage)
     def f_ability1(self):
     	self.damage = 0
         shield = random.randrange(self.intellect+(self.wisdom/2),(self.intellect+(self.wisdom/2))*2)
         self.shield = shield
+        shield = str(shield)
+        drawText('You create a '+shield+' point shield.',font,windowSurface,0,0,TEXTCOLOR)
         print "You create a {0} point shield".format(shield)
      
     #def f_ability2(self):
@@ -166,6 +218,8 @@ class mage:
         self.miss = 100/self.intellect
         self.crit = self.intellect
         self.lvl += 1
+        lvl = str(self.lvl)
+        drawText('You reached level '+lvl,font,windowSurface,0,0,TEXTCOLOR)
         print "\nYou've reached level {0}".format(self.lvl)
     def f_sword(self):
         self.intellect += 30
@@ -215,6 +269,7 @@ class warrior:
     		bonus_damage = round(self.strength*1.5, 0)
     		crit_cap = 85
     		self.tactics -= 1
+    		drawText('Primed for battle...',font,windowSurface,0,0,TEXTCOLOR)
     		print "Primed for battle..."
     	else:
     		bonus_damage = 0
@@ -224,16 +279,23 @@ class warrior:
         miss = random.randrange(1,100)
         if miss <= self.miss:
             self.damage = 0
+            drawText('You MISS completely!',font,windowSurface,0,25,TEXTCOLOR)
             print "You MISS completely!"
         elif crit <= self.crit:
             self.damage = damage*2
+            dam = str(self.damage)
+            drawText('Your Heroic Slash CRITS for '+dam,font,windowSurface,0,25,TEXTCOLOR)
             print 'Your Heroic Slash {0} for {1} damage.'.format(self.dict[5],self.damage)
         else:
             self.damage = damage
+            dam = str(self.damage)
+            drawText('Your Heroic Slash hits for '+dam,font,windowSurface,0,25,TEXTCOLOR)
             print 'Your Heroic Slash {0} for {1} damage.'.format(self.dict[random.randrange(0,5)],self.damage)
     
     def f_ability1(self):
     	self.tactics = 3
+    	dam = str(self.damage)
+        drawText('Your prepare yourself for battle!',font,windowSurface,0,0,TEXTCOLOR)
     	print "You prepare your self for battle!"
     	
     def f_ability2(self):
@@ -261,6 +323,12 @@ class warrior:
     			furious_bar.append(temp_damage)
     	damage += furious_bar[0] + furious_bar[1] + furious_bar[2]
     	self.damage = damage
+    	dam1 = str(furious_bar[0])
+    	dam2 = str(furious_bar[1])
+    	dam3 = str(furious_bar[2])
+        drawText('Primed for battle...',font,windowSurface,0,0,TEXTCOLOR)
+        drawText('Your furious barrage of blows deal',font,windowSurface,0,25,TEXTCOLOR)
+        drawText(dam1+', '+dam2+' and '+dam3,font,windowSurface,0,50,TEXTCOLOR)
     	print "Primed for battle..."
     	print "Your furious barrage of blows deal {0}, {1}, and {2} damage".format(furious_bar[0],furious_bar[1],furious_bar[2])
     		
@@ -276,6 +344,8 @@ class warrior:
         self.miss = 100/self.strength
         self.crit = self.strength/1.5
         self.lvl += 1
+        lvl = str(self.lvl)
+        drawText('You reached level '+lvl,font,windowSurface,0,0,TEXTCOLOR)
         print "\nYou've reached level {0}".format(self.lvl)
     def f_sword(self):
         self.strength += 30
@@ -330,12 +400,17 @@ class cleric:
         	self.empowered = 0
         if miss <= self.miss:
             self.damage = 0
+            drawText('You MISS completely!',font,windowSurface,0,0,TEXTCOLOR)
             print "You MISS completely!"
         elif crit <= self.crit:
             self.damage = damage*2
+            dam = str(self.damage)
+            drawText('Your Holy Blow CRITS for '+dam,font,windowSurface,0,0,TEXTCOLOR)
             print 'Your Holy Blow {0} for {1} damage.'.format(self.dict[5],self.damage)
         else:
             self.damage = damage
+            dam = str(self.damage)
+            drawText('Your Holy Blow hits for '+dam,font,windowSurface,0,0,TEXTCOLOR)
             print 'Your Holy Blow {0} for {1} damage.'.format(self.dict[random.randrange(0,5)],self.damage)
         
     def f_ability1(self):
@@ -345,18 +420,26 @@ class cleric:
     	if (self.empowered):
     		self.health += round(damage*0.8, 0)
     		self.empowered = 0
+    		heal = str(damage*0.8)
+                drawText('You are healed for '+heal,font,windowSurface,0,0,TEXTCOLOR)
     		print "You are healed for {0}".format(damage*0.8)
     	else:
     		self.empowered = 1
+                drawText('You feel empowered by a divine force!',font,windowSurface,0,0,TEXTCOLOR)
     		print "You feel empowered by a devine force!"
     	if miss <= self.miss:
     		self.damage = 0
+                drawText('You MISS completely!',font,windowSurface,0,0,TEXTCOLOR)
     		print "You Missed!"
     	elif crit <= self.crit:
     		self.damage = damage * 2
+    		dam = str(self.damage)
+                drawText('Your Devine Judment CRITS for '+dam,font,windowSurface,0,25,TEXTCOLOR)
     		print "Your Devine Judgment CRITS for {0} damage.".format(self.damage)
     	else:
     		self.damage = damage
+    		dam = str(self.damage)
+                drawText('Your Devine Judment CRITS for '+dam,font,windowSurface,0,25,TEXTCOLOR)
     		print "Your Devine Judgment deals {0} damage.".format(self.damage)
     
     def f_ability2(self):
@@ -371,6 +454,12 @@ class cleric:
     	self.damage = damage
     	self.wisdom += wisdom_gain
     	self.health += heal_amt
+    	wis = str(wisdom_gain)
+    	dam = str(self.damage)
+    	heal = str(heal_amt)
+    	drawText(dam+' damage dealt',font,windowSurface,0,0,TEXTCOLOR)
+    	drawText('Healed for '+heal,font,windowSurface,0,25,TEXTCOLOR)
+    	drawText('Wisdom boosted by '+wis,font,windowSurface,0,50,TEXTCOLOR)
     	print "{0} damage dealt, healed for {1}, wisdom boosted by {2}.".format(damage, heal_amt, wisdom_gain)
     	
     def f_health(self):
@@ -385,6 +474,8 @@ class cleric:
         self.miss = 100/(self.intellect + self.strength)
         self.crit = (self.wisdom + self.intellect)/1.5
         self.lvl += 1
+        lvl = str(self.lvl)
+        drawText('You reached level '+lvl,font,windowSurface,0,0,TEXTCOLOR)
         print "\nYou've reached level {0}".format(self.lvl)
     def f_sword(self):
         self.intellect += 30
