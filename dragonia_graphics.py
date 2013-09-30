@@ -271,6 +271,8 @@ def battle(place,player,enemy):
     if player[2].cls == 'warlock':
         ability2 = warlock_shield()
         ability2[1].topleft = (150,350)
+    if player[2].tactics >= 0:
+        player[2].tactics = 0
     while alive[2] == True:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -361,9 +363,9 @@ def battle(place,player,enemy):
                         player_health(player[2].health,plyr,player[2].shield)
                         windowSurface.blit(ability2[0],ability2[1])
                         pygame.display.update()
-                    player[2].f_ability2()
-                    alive = damage(enemy[2],player[2],alive)
                     if player[2].cls != 'mage':
+                        player[2].f_ability2()
+                        alive = damage(enemy[2],player[2],alive)
                         enemy[2].f_ability0()
                     else:
                         drawText('Ability Not Available Yet!',font,windowSurface,0,0,TEXTCOLOR)
