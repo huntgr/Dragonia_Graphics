@@ -44,6 +44,13 @@ class warlock:
     def f_displayStats(self):
         print "Class: ", self.cls, "\nName: ", self.name,"\nLevel: ",self.lvl, "\nStamina: ", self.stamina, "\nWisdom: ", self.wisdom, "\nIntellect: ",self.intellect, "\nDexterity: ",self.dexterity, "\nStrength: ",self.strength, "\nMiss: ",self.miss,"\nCrit: ",self.crit
     def f_abilities(self):
+        font = pygame.font.SysFont('centaur', 20)
+        drawText('(1): Power Siphon. This ability does '+str((self.intellect+self.stamina*3/2))+' to '+str(((self.intellect+self.stamina)*7/3))+' damage.  It is increased by your Intellect and Stamina.',font,windowSurface,100,30,TEXTCOLOR)
+        drawText('     You are healed for a portion of the damage dealt.',font,windowSurface,100,60,TEXTCOLOR)
+        drawText('(2): Entropic Asault.  This ability does '+str((self.intellect+self.wisdom+self.stamina)/2)+' to '+str((self.intellect+self.wisdom+self.stamina)*7/2)+' damage. It is increased by Intellect and Stamina.',font,windowSurface,100,90,TEXTCOLOR)
+        drawText('     Consumes a portion of your current health.  Even if you miss.',font,windowSurface,100,120,TEXTCOLOR)
+        drawText('(3): Blood Armor.  This ablity sacrifices '+str(self.health*0.1)+' to create a '+str(self.health*0.3)+' damage shield.',font,windowSurface,100,150,TEXTCOLOR)
+        drawText('     Sacrifices 10% hp for shield 3x as strong.',font,windowSurface,100,180,TEXTCOLOR)
         print "Power Siphon(1).  This ability does {0} to {1} damage".format((self.intellect+self.stamina*3/2),((self.intellect+self.stamina)*7/3))
         print "Heals you for a portion of damage dealt\n"
         print "Entropic Assault(2). This ability does {0} to {1} damage".format((self.intellect+self.wisdom+self.stamina)/2,(self.intellect+self.wisdom+self.stamina)*7/2)
@@ -174,6 +181,10 @@ class mage:
     def f_displayStats(self):
         print "Class: ", self.cls, "\nName: ", self.name, "\nLevel: ",self.lvl,"\nStamina: ", self.stamina, "\nWisdom: ", self.wisdom, "\nIntellect: ",self.intellect, "\nDexterity: ",self.dexterity, "\nStrength: ",self.strength, "\nMiss: ",self.miss,"\nCrit: ",self.crit
     def f_abilities(self):
+        font = pygame.font.SysFont('centaur', 20)
+        drawText('(1): Fireball.  This ability does '+str(self.intellect*2)+' to '+str(self.intellect*7)+' damage.  Its damage is increased by your Intellect.',font,windowSurface,100,30,TEXTCOLOR)
+        drawText('(2): Barrier.  This ability creates a magical shield that absorbs '+str(self.intellect+(self.wisdom/2))+' to '+str((self.intellect+(self.wisdom/2))*2)+' damage.',font,windowSurface,100,60,TEXTCOLOR)
+        drawText('     The amount absorbed increases based on Intellect and Wisdom',font,windowSurface,100,90,TEXTCOLOR)
         print "Fireball(1).  This ability does {0} to {1} damage.\n".format(self.intellect*2,self.intellect*7)
         print "Barrier(2). This ability creates a magical shield that absorbs {0} to {1} damage.".format(self.intellect+(self.wisdom/2),(self.intellect+(self.wisdom/2))*2)
         print " "
@@ -260,6 +271,11 @@ class warrior:
     def f_displayStats(self):
         print "Class: ", self.cls, "\nName: ", self.name,"\nLevel: ",self.lvl, "\nStamina: ", self.stamina, "\nWisdom: ", self.wisdom, "\nIntellect: ",self.intellect, "\nDexterity: ",self.dexterity, "\nStrength: ",self.strength, "\nMiss: ",self.miss,"\nCrit: ",self.crit
     def f_abilities(self):
+        font = pygame.font.SysFont('centaur', 20)
+        drawText('(1): Heroic Slash.  This ability does '+str(self.strength*2)+' to '+str(self.strength*4)+' damage.  Its damage is increased by Strength.',font,windowSurface,100,30,TEXTCOLOR)
+        drawText('(2): Combat Tactics.  This ability boosts your damage output and crit chance for 3 turns.',font,windowSurface,100,60,TEXTCOLOR)
+        drawText('(3): Furious Barrage.  Deals 3 swift strikes, dealing '+str(self.dexterity/2)+' to '+str((self.dexterity*2)+self.strength)+' damage.',font,windowSurface,100,90,TEXTCOLOR)
+        drawText('     Its damage is increased by Dexterity and Strength',font,windowSurface,100,120,TEXTCOLOR)
         print "Heroic Slash(1).  This ability does {0} to {1} damage.\n".format(self.strength*2,self.strength*4)
         print "Combat Tactics(2). This ability boosts your damage output and crit chance for three turns."
         print "Furious Barrage(3). Deals three swift strikes dealing {0} to {1} damage.".format(self.dexterity/2,(self.dexterity*2)+self.strength)
@@ -385,6 +401,15 @@ class cleric:
     def f_displayStats(self):
         print "Class: ", self.cls, "\nName: ", self.name,"\nLevel: ",self.lvl, "\nStamina: ", self.stamina, "\nWisdom: ", self.wisdom, "\nIntellect: ",self.intellect, "\nDexterity: ",self.dexterity, "\nStrength: ",self.strength, "\nMiss: ",self.miss,"\nCrit: ",self.crit
     def f_abilities(self):
+        font = pygame.font.SysFont('centaur', 20)
+        drawText('(1): Holy Blow. This ability does '+str(self.strength+self.intellect)+' to '+str((self.strength + self.intellect)*3)+' damage.  Its damage is increased by Strength and Intellect.',font,windowSurface,100,30,TEXTCOLOR)
+        drawText('(2): Divine Judgment.  This ability does '+str(self.wisdom*2)+' to '+str(self.wisdom*5)+' damage.  Its damage is increased by Wisdom.',font,windowSurface,100,60,TEXTCOLOR)
+        drawText('      Divine Judgment also causes your next ability to have additional effects.',font,windowSurface,100,90,TEXTCOLOR)
+        drawText('          Holy Blow does additional damage',font,windowSurface,100,120,TEXTCOLOR)
+        drawText('          Divine Judgement heals you.',font,windowSurface,100,150,TEXTCOLOR)
+        drawText('          Divin Sagicity grants 2 Wisdom instead of 1.',font,windowSurface,100,180,TEXTCOLOR)
+        drawText('(3): Divine Sagicity. This ability deals damage equal to',font,windowSurface,100,210,TEXTCOLOR)
+        drawText('     your Wisdom, heals you and increases your wisdom by 1.',font,windowSurface,100,240,TEXTCOLOR)
         print "Holy Blow(1).  This ability does {0} to {1} damage.\n".format(self.strength+self.intellect,(self.strength + self.intellect)*3)
         print "Devine Judgment(2). This ability does {0} to {1} damage.".format(self.wisdom*2, self.wisdom*5)
         print "You enter a state of devine empowerment adding addition effects to your next attack."

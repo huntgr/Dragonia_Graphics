@@ -206,6 +206,28 @@ def abilityone(ability1,place,enemy_place,plyr,enemy,player):
         pygame.display.update()
         time.sleep(0.2)
         i += 1
+
+def enemy_attack(place,enemy_place,plyr,player):
+    i = 0
+    enemy = enemy_place
+    while i != 6:
+        windowSurface.blit(place[0],place[1])
+        windowSurface.blit(plyr[0],plyr[1])
+        enemy[1].topleft = (500-(i*50),200)
+        windowSurface.blit(enemy[0],enemy[1])
+        enemy_health(enemy[2].health,enemy)
+        player_health(player[2].health,plyr,player[2].shield)
+        if player[2].shield != 0:
+            if player[2].cls == 'mage':
+                ability2 = mage_shield()
+            elif player[2].cls == 'warlock':
+                ability2 = warlock_shield()
+            ability2[1].topleft = (150,350)
+            windowSurface.blit(ability2[0],ability2[1])
+        i += 1
+        pygame.display.update()
+        time.sleep(0.2)
+    enemy[1].topleft = (500,200)
         
 def terminate():
     pygame.quit()
@@ -271,8 +293,9 @@ def battle(place,player,enemy):
     if player[2].cls == 'warlock':
         ability2 = warlock_shield()
         ability2[1].topleft = (150,350)
-    if player[2].tactics >= 0:
-        player[2].tactics = 0
+    if player[2].cls == 'warrior':
+        if player[2].tactics > 0:
+            player[2].tactics = 0
     while alive[2] == True:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -296,19 +319,23 @@ def battle(place,player,enemy):
                     if player[2].cls == 'warrior':
                         if player[2].tactics > 0:
                             windowSurface.blit(tact[0],tact[1])
+                    enemy_attack(place,enemy_place,plyr,player)        
                     player[2].f_ability0()
                     enemy[2].f_ability0()
-                    if player[2].shield != 0:
-                        windowSurface.blit(ability2[0],ability2[1])
+##                    if player[2].shield != 0:
+##                        windowSurface.blit(ability2[0],ability2[1])
                     alive = damage(enemy[2],player[2],alive)
                     pygame.display.update()
                     time.sleep(2)
 
                 if event.key == ord('2'):
                     if player[2].cls == 'mage':
-                        player[2].f_ability1()
                         ability2 = mage_shield()
                         ability2[1].topleft = (150,350)
+                        enemy_attack(place,enemy_place,plyr,player)
+                        player[2].f_ability1()
+                        enemy[2].f_ability0()
+                        pygame.display.update()
                     if player[2].cls == 'cleric':
                         empower = cleric_empowerment()
                         empower[1].topleft = (150,350)
@@ -317,6 +344,7 @@ def battle(place,player,enemy):
                         enemy_health(enemy[2].health,enemy_place)
                         player_health(player[2].health,plyr,player[2].shield)
                         windowSurface.blit(empower[0],empower[1])
+                        enemy_attack(place,enemy_place,plyr,player)
                         player[2].f_ability1()
                         enemy[2].f_ability0()
                         pygame.display.update()
@@ -328,6 +356,7 @@ def battle(place,player,enemy):
                         enemy_health(enemy[2].health,enemy_place)
                         player_health(player[2].health,plyr,player[2].shield)
                         windowSurface.blit(tact[0],tact[1])
+                        enemy_attack(place,enemy_place,plyr,player)
                         player[2].f_ability1()
                         enemy[2].f_ability0()
                         pygame.display.update()
@@ -339,6 +368,7 @@ def battle(place,player,enemy):
                         windowSurface.blit(plyr[0],plyr[1])
                         enemy_health(enemy[2].health,enemy_place)
                         player_health(player[2].health,plyr,player[2].shield)
+                        enemy_attack(place,enemy_place,plyr,player)
                         player[2].f_ability1()
                         enemy[2].f_ability0()
                         pygame.display.update()
@@ -363,10 +393,12 @@ def battle(place,player,enemy):
                         player_health(player[2].health,plyr,player[2].shield)
                         windowSurface.blit(ability2[0],ability2[1])
                         pygame.display.update()
+                        enemy_attack(place,enemy_place,plyr,player)
+                        pygame.display.update()
                     if player[2].cls != 'mage':
                         player[2].f_ability2()
-                        alive = damage(enemy[2],player[2],alive)
                         enemy[2].f_ability0()
+                        alive = damage(enemy[2],player[2],alive)  
                     else:
                         drawText('Ability Not Available Yet!',font,windowSurface,0,0,TEXTCOLOR)
                     pygame.display.update()
@@ -485,6 +517,13 @@ def pick_hero(heroes):
     data = [heroImage,heroRect,class_]
     return data
 
+def class_abilities(player):
+    windowSurface.fill(BACKGROUNDCOLOR)
+    player[2].f_abilities()
+    drawText('Press ENTER to begin.', font, windowSurface, 100, 0,(255,255,255))
+    pygame.display.update()
+    waitForPlayerToPressKey()
+    
 def place():
     places = ['cave_dragonia.png','desert.png','water.png','sun.png']
     rand = random.randint(0,len(places)-1)
@@ -534,6 +573,7 @@ while True:
     windowSurface.blit(dragonia[0],dragonia[1])
     player = pick_hero(heroes)
     player[1].topleft = (0,20)
+    class_abilities(player)
     the_enemies = all_enemies(enemies,locations)
     you_win = False
     while True: # the game loop runs while the game part is playing
@@ -607,7 +647,7 @@ while True:
         current_enemy = playerHasHitEnemy(player[1], the_enemies)
         if current_enemy != -1:
             moveLeft = moveRight = moveUp = moveDown = False
-            drawText('You have encountered an enemy! Prepare to fight!',font,windowSurface,0,0,TEXTCOLOR)
+            drawText('You have encountered an enemy! Prepare to fight!',font,windowSurface,0,0,(0,0,0))
             pygame.display.update()
             time.sleep(1)
             alive = battle(place(),player,the_enemies[current_enemy])
