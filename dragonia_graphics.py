@@ -10,6 +10,82 @@ BACKGROUNDCOLOR = (0,0,0)
 FPS = 60
 PLAYERMOVERATE = 5
 
+def mouse_test():
+    pygame.event.set_grab(True)
+    pygame.mouse.set_visible(True)
+    pos = pygame.mouse.get_pos()
+    return pos
+
+def plus_sign():
+    plusImage = pygame.image.load('plus.png')
+    plusRect= plusImage.get_rect()
+    data = [plusImage,plusRect]
+    return data
+
+def level_up(player):
+    font = pygame.font.SysFont('centaur', 15)
+    plus = []
+    stats = 5
+    i = 0
+    while i != 5:
+        plus.append(plus_sign())
+        plus[i][1].topleft = (300,150+(i*17))
+        windowSurface.blit(plus[i][0],plus[i][1])
+        i += 1
+    pygame.display.update()
+    while stats != 0:
+         for event in pygame.event.get():
+            if event.type == QUIT:
+                terminate()
+            if event.type == KEYUP:
+                if event.key == K_ESCAPE:
+                    terminate()
+         windowSurface.fill((0,0,0))
+         i = 0
+         while i != 5:
+            windowSurface.blit(plus[i][0],plus[i][1])
+            i += 1
+         drawText('You are now lvl '+str(player[2].lvl)+'.  Please place 5 stats wherever you like.',font,windowSurface,200,125,TEXTCOLOR)
+         drawText('Stamina: '+str(player[2].stamina),font,windowSurface,320,150,TEXTCOLOR)
+         drawText('Wisdom: '+str(player[2].wisdom),font,windowSurface,320,167,TEXTCOLOR)
+         drawText('Intellect: '+str(player[2].intellect),font,windowSurface,320,184,TEXTCOLOR)
+         drawText('Dexterity: '+str(player[2].dexterity),font,windowSurface,320,201,TEXTCOLOR)
+         drawText('Strength: '+str(player[2].strength),font,windowSurface,320,218,TEXTCOLOR)
+         pygame.display.update()
+         pressed = pygame.mouse.get_pressed()
+         if pressed[0] == True:
+             time.sleep(0.1)
+             pos = mouse_test()
+             if plus[0][1].collidepoint(pos):
+                 stats -= 1
+                 player[2].stamina += 1
+             if plus[1][1].collidepoint(pos):
+                 stats -= 1
+                 player[2].wisdom += 1
+             if plus[2][1].collidepoint(pos):
+                 stats -= 1
+                 player[2].intellect += 1
+             if plus[3][1].collidepoint(pos):
+                 stats -= 1
+                 player[2].dexterity += 1
+             if plus[4][1].collidepoint(pos):
+                 stats -= 1
+                 player[2].strength += 1
+             windowSurface.fill((0,0,0))
+             j = 0
+             while j != 5:
+                windowSurface.blit(plus[j][0],plus[j][1])
+                j += 1
+             drawText('You are now lvl '+str(player[2].lvl)+'.  Please place 5 stats wherever you like.',font,windowSurface,200,125,TEXTCOLOR)
+             drawText('Stamina: '+str(player[2].stamina),font,windowSurface,320,150,TEXTCOLOR)
+             drawText('Wisdom: '+str(player[2].wisdom),font,windowSurface,320,167,TEXTCOLOR)
+             drawText('Intellect: '+str(player[2].intellect),font,windowSurface,320,184,TEXTCOLOR)
+             drawText('Dexterity: '+str(player[2].dexterity),font,windowSurface,320,201,TEXTCOLOR)
+             drawText('Strength: '+str(player[2].strength),font,windowSurface,320,218,TEXTCOLOR)
+             pygame.display.update()
+             player[2].health = player[2].stamina*10
+         pygame.event.set_grab(False)
+         
 def damage(enemy,player,alive):
     enemy.health -= player.damage
     if(player.shield):
@@ -75,6 +151,18 @@ def warlock_shield():
     data = [shieldImage,shieldRect]
     return data
 
+def warlock_entropic():
+    entImage = pygame.image.load('warlock_entropicassault_dragonia.png')
+    entRect = entImage.get_rect()
+    data = [entImage,entRect]
+    return data
+
+def warrior_tactics():
+    tactImage = pygame.image.load('warrior_tactics_dragonia.png')
+    tactRect = tactImage.get_rect()
+    data = [tactImage,tactRect]
+    return data
+
 def mage_shield():
     shieldImage = pygame.image.load('mage_shield_dragonia.png')
     shieldRect = shieldImage.get_rect()
@@ -99,6 +187,8 @@ def abilityone(ability1,place,enemy_place,plyr,enemy,player):
         if player[2].cls == 'mage':
             ability1[1].topleft = (220+(i*50),290)
         elif player[2].cls == 'cleric':
+            ability1[1].topleft = (220+(i*50),400)
+        elif player[2].cls == 'warlock':
             ability1[1].topleft = (220+(i*50),400)
         windowSurface.blit(place[0],place[1])
         windowSurface.blit(enemy_place[0],enemy_place[1])
@@ -188,7 +278,6 @@ def battle(place,player,enemy):
                     terminate()   
                 if event.key == ord('1'):
                     if player[2].cls == 'mage':
-                        #print "IM A MAGE"
                         ability1 = mage_fireball()
                     if player[2].cls == 'cleric':
                         ability1 = cleric_holyblow()
@@ -199,6 +288,9 @@ def battle(place,player,enemy):
                     windowSurface.blit(plyr[0],plyr[1])
                     enemy_health(enemy[2].health,enemy_place)
                     player_health(player[2].health,plyr,player[2].shield)
+                    if player[2].cls == 'warrior':
+                        if player[2].tactics > 0:
+                            windowSurface.blit(tact[0],tact[1])
                     player[2].f_ability0()
                     enemy[2].f_ability0()
                     if player[2].shield != 0:
@@ -208,13 +300,43 @@ def battle(place,player,enemy):
                     time.sleep(2)
 
                 if event.key == ord('2'):
-                    player[2].f_ability1()
                     if player[2].cls == 'mage':
+                        player[2].f_ability1()
                         ability2 = mage_shield()
                         ability2[1].topleft = (150,350)
+                    if player[2].cls == 'cleric':
+                        empower = cleric_empowerment()
+                        empower[1].topleft = (150,350)
+                        windowSurface.blit(enemy_place[0],enemy_place[1])
+                        windowSurface.blit(plyr[0],plyr[1])
+                        enemy_health(enemy[2].health,enemy_place)
+                        player_health(player[2].health,plyr,player[2].shield)
+                        windowSurface.blit(empower[0],empower[1])
+                        player[2].f_ability1()
+                        pygame.display.update()
+                    if player[2].cls == 'warrior':
+                        tact = warrior_tactics()
+                        tact[1].topleft = (150,350)
+                        windowSurface.blit(enemy_place[0],enemy_place[1])
+                        windowSurface.blit(plyr[0],plyr[1])
+                        enemy_health(enemy[2].health,enemy_place)
+                        player_health(player[2].health,plyr,player[2].shield)
+                        windowSurface.blit(tact[0],tact[1])
+                        player[2].f_ability1()
+                        pygame.display.update()
+                    if player[2].cls == 'warlock':
+                        ent = warlock_entropic()
+                        abilityone(ent,place,enemy_place,plyr,enemy,player)
+                        windowSurface.blit(place[0],place[1])
+                        windowSurface.blit(enemy_place[0],enemy_place[1])
+                        windowSurface.blit(plyr[0],plyr[1])
+                        enemy_health(enemy[2].health,enemy_place)
+                        player_health(player[2].health,plyr,player[2].shield)
+                        player[2].f_ability1()
+                        pygame.display.update()
                     alive = damage(enemy[2],player[2],alive)
                     if player[2].shield != 0:
-                        #windowSurface.blit(place[0],place[1])
+                        windowSurface.blit(place[0],place[1])
                         windowSurface.blit(enemy_place[0],enemy_place[1])
                         windowSurface.blit(plyr[0],plyr[1])
                         enemy_health(enemy[2].health,enemy_place)
@@ -226,13 +348,16 @@ def battle(place,player,enemy):
                     time.sleep(1)
                   
                 if event.key == ord('3'):
+                    player[2].f_ability2()
                     if player[2].cls == 'warlock':
                         ability2 = warlock_shield()
                         ability2[1].topleft = (150,350)
-                    player[2].f_ability2()
                     alive = damage(enemy[2],player[2],alive)
+                    if player[2].cls == 'warrior':
+                        if player[2].tactics > 0:
+                            windowSurface.blit(tact[0],tact[1])
                     if player[2].shield != 0:
-                        #windowSurface.blit(place[0],place[1])
+                        windowSurface.blit(place[0],place[1])
                         windowSurface.blit(enemy_place[0],enemy_place[1])
                         windowSurface.blit(plyr[0],plyr[1])
                         enemy_health(enemy[2].health,enemy_place)
@@ -254,16 +379,21 @@ def battle(place,player,enemy):
         windowSurface.blit(place[0],place[1])
         windowSurface.blit(enemy_place[0],enemy_place[1])
         windowSurface.blit(plyr[0],plyr[1])
+        player_health(player[2].health,plyr,player[2].shield)
+        if player[2].cls == 'warrior':
+            if player[2].tactics > 0:
+                windowSurface.blit(tact[0],tact[1])
         if player[2].shield != 0:
             windowSurface.blit(ability2[0],ability2[1])
         enemy_health(enemy[2].health,enemy_place)
         ability1 = []
         if alive[0] == True and alive[1] == False:
-            player[2].f_level()
-            player_health(player[2].health,plyr,player[2].shield)
+            player[2].lvl += 1
+            level_up(player)
+            #player_health(player[2].health,plyr,player[2].shield)
             pygame.display.update()
             time.sleep(2)
-        player_health(player[2].health,plyr,player[2].shield)
+        #player_health(player[2].health,plyr,player[2].shield)
         pygame.display.update()
     return alive
 
