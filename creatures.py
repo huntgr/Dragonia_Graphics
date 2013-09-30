@@ -276,7 +276,7 @@ class dragon:
             print "The Dragon spews tar all over your body...un oh"
         else:
             damage = random.randrange(10,80)
-            drawText('The Dragon attacks you!',font,windowSurface,TEXT,0,TEXTCOLOR)
+            drawText('The Dragon attacks you for '+str(damage),font,windowSurface,TEXT,0,TEXTCOLOR)
             print "The Dragon attacks you!"
         if miss <= self.miss and ability != 1:
             self.damage = 0

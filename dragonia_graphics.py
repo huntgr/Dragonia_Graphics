@@ -197,7 +197,10 @@ def abilityone(ability1,place,enemy_place,plyr,enemy,player):
         enemy_health(enemy[2].health,enemy_place)
         player_health(player[2].health,plyr,player[2].shield)
         if player[2].shield != 0:
-            ability2 = mage_shield()
+            if player[2].cls == 'mage':
+                ability2 = mage_shield()
+            elif player[2].cls == 'warlock':
+                ability2 = warlock_shield()
             ability2[1].topleft = (150,350)
             windowSurface.blit(ability2[0],ability2[1])
         pygame.display.update()
@@ -313,6 +316,7 @@ def battle(place,player,enemy):
                         player_health(player[2].health,plyr,player[2].shield)
                         windowSurface.blit(empower[0],empower[1])
                         player[2].f_ability1()
+                        enemy[2].f_ability0()
                         pygame.display.update()
                     if player[2].cls == 'warrior':
                         tact = warrior_tactics()
@@ -323,6 +327,7 @@ def battle(place,player,enemy):
                         player_health(player[2].health,plyr,player[2].shield)
                         windowSurface.blit(tact[0],tact[1])
                         player[2].f_ability1()
+                        enemy[2].f_ability0()
                         pygame.display.update()
                     if player[2].cls == 'warlock':
                         ent = warlock_entropic()
@@ -333,26 +338,18 @@ def battle(place,player,enemy):
                         enemy_health(enemy[2].health,enemy_place)
                         player_health(player[2].health,plyr,player[2].shield)
                         player[2].f_ability1()
+                        enemy[2].f_ability0()
                         pygame.display.update()
-                    alive = damage(enemy[2],player[2],alive)
                     if player[2].shield != 0:
-                        windowSurface.blit(place[0],place[1])
-                        windowSurface.blit(enemy_place[0],enemy_place[1])
-                        windowSurface.blit(plyr[0],plyr[1])
-                        enemy_health(enemy[2].health,enemy_place)
-                        player_health(player[2].health,plyr,player[2].shield)
                         windowSurface.blit(ability2[0],ability2[1])
-                        pygame.display.update()
-                    enemy[2].f_ability0()
+                    alive = damage(enemy[2],player[2],alive)
                     pygame.display.update()
-                    time.sleep(1)
+                    time.sleep(2)
                   
                 if event.key == ord('3'):
-                    player[2].f_ability2()
                     if player[2].cls == 'warlock':
                         ability2 = warlock_shield()
                         ability2[1].topleft = (150,350)
-                    alive = damage(enemy[2],player[2],alive)
                     if player[2].cls == 'warrior':
                         if player[2].tactics > 0:
                             windowSurface.blit(tact[0],tact[1])
@@ -364,6 +361,8 @@ def battle(place,player,enemy):
                         player_health(player[2].health,plyr,player[2].shield)
                         windowSurface.blit(ability2[0],ability2[1])
                         pygame.display.update()
+                    player[2].f_ability2()
+                    alive = damage(enemy[2],player[2],alive)
                     if player[2].cls != 'mage':
                         enemy[2].f_ability0()
                     else:
