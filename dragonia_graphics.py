@@ -196,6 +196,11 @@ def abilityone(ability1,place,enemy_place,plyr,enemy,player):
         windowSurface.blit(ability1[0], ability1[1])
         enemy_health(enemy[2].health,enemy_place)
         player_health(player[2].health,plyr,player[2].shield)
+        if player[2].cls == 'cleric':
+            if player[2].empowered == 1:
+                ability2 = cleric_empowerment()
+                ability2[1].topleft = (150,350)
+                windowSurface.blit(ability2[0],ability2[1])
         if player[2].shield != 0:
             if player[2].cls == 'mage':
                 ability2 = mage_shield()
@@ -217,6 +222,16 @@ def enemy_attack(place,enemy_place,plyr,player):
         windowSurface.blit(enemy[0],enemy[1])
         enemy_health(enemy[2].health,enemy)
         player_health(player[2].health,plyr,player[2].shield)
+        if player[2].cls == 'warrior':
+            if player[2].tactics > 0:
+                tact = warrior_tactics()
+                tact[1].topleft = (150,350)
+                windowSurface.blit(tact[0],tact[1])
+        if player[2].cls == 'cleric':
+            if player[2].empowered == 1:
+                ability2 = cleric_empowerment()
+                ability2[1].topleft = (150,350)
+                windowSurface.blit(ability2[0],ability2[1])
         if player[2].shield != 0:
             if player[2].cls == 'mage':
                 ability2 = mage_shield()
@@ -318,6 +333,8 @@ def battle(place,player,enemy):
                     player_health(player[2].health,plyr,player[2].shield)
                     if player[2].cls == 'warrior':
                         if player[2].tactics > 0:
+                            tact = warrior_tactics()
+                            tact[1].topleft = (150,350)
                             windowSurface.blit(tact[0],tact[1])
                     enemy_attack(place,enemy_place,plyr,player)        
                     player[2].f_ability0()
@@ -372,6 +389,11 @@ def battle(place,player,enemy):
                         player[2].f_ability1()
                         enemy[2].f_ability0()
                         pygame.display.update()
+                    if player[2].cls == 'cleric':
+                        if player[2].empowered == 1:
+                            ability2 = cleric_empowerment()
+                            ability2[1].topleft = (150,350)
+                            windowSurface.blit(ability2[0],ability2[1])
                     if player[2].shield != 0:
                         windowSurface.blit(ability2[0],ability2[1])
                     alive = damage(enemy[2],player[2],alive)
@@ -384,6 +406,8 @@ def battle(place,player,enemy):
                         ability2[1].topleft = (150,350)
                     if player[2].cls == 'warrior':
                         if player[2].tactics > 0:
+                            tact = warrior_tactics()
+                            tact[1].topleft = (150,350)
                             windowSurface.blit(tact[0],tact[1])
                     if player[2].shield != 0:
                         windowSurface.blit(place[0],place[1])
@@ -393,12 +417,12 @@ def battle(place,player,enemy):
                         player_health(player[2].health,plyr,player[2].shield)
                         windowSurface.blit(ability2[0],ability2[1])
                         pygame.display.update()
-                        enemy_attack(place,enemy_place,plyr,player)
-                        pygame.display.update()
                     if player[2].cls != 'mage':
+                        enemy_attack(place,enemy_place,plyr,player)
                         player[2].f_ability2()
                         enemy[2].f_ability0()
-                        alive = damage(enemy[2],player[2],alive)  
+                        alive = damage(enemy[2],player[2],alive)
+                        pygame.display.update()
                     else:
                         drawText('Ability Not Available Yet!',font,windowSurface,0,0,TEXTCOLOR)
                     pygame.display.update()
@@ -415,7 +439,14 @@ def battle(place,player,enemy):
         player_health(player[2].health,plyr,player[2].shield)
         if player[2].cls == 'warrior':
             if player[2].tactics > 0:
+                tact = warrior_tactics()
+                tact[1].topleft = (150,350)
                 windowSurface.blit(tact[0],tact[1])
+        if player[2].cls == 'cleric':
+            if player[2].empowered == 1:
+                ability2 = cleric_empowerment()
+                ability2[1].topleft = (150,350)
+                windowSurface.blit(ability2[0],ability2[1])
         if player[2].shield != 0:
             windowSurface.blit(ability2[0],ability2[1])
         enemy_health(enemy[2].health,enemy_place)
