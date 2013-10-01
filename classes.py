@@ -174,6 +174,7 @@ class mage:
         self.health = self.stamina*10
         self.shield = 0
         self.damage = 0
+        self.minion = 0
         self.miss = 150/self.intellect
         self.crit = self.intellect
         self.dict = ['burns','incinertes','scourches','glances','hits','CRITS','misses']
@@ -188,9 +189,10 @@ class mage:
         drawText('(1): Fireball.  This ability does '+str(self.intellect*2)+' to '+str(self.intellect*7)+' damage.  Its damage is increased by your Intellect.',font,windowSurface,100,30,TEXTCOLOR)
         drawText('(2): Barrier.  This ability creates a magical shield that absorbs '+str(self.intellect+(self.wisdom/2))+' to '+str((self.intellect+(self.wisdom/2))*3)+' damage.',font,windowSurface,100,60,TEXTCOLOR)
         drawText('     The amount absorbed increases based on Intellect and Wisdom',font,windowSurface,100,90,TEXTCOLOR)
+        drawText('(3): Summon Minion. This ability summons a minon who will attack for a few turns.',font,windowSurface,100,120,TEXTCOLOR)
         print "Fireball(1).  This ability does {0} to {1} damage.\n".format(self.intellect*2,self.intellect*7)
         print "Barrier(2). This ability creates a magical shield that absorbs {0} to {1} damage.".format(self.intellect+(self.wisdom/2),(self.intellect+(self.wisdom/2))*2)
-        print " "
+        print "Summon Minion(3). This ability summons a minion who will attack for a few turns."
     def f_ability0(self):
         damage = random.randrange(self.intellect*2,self.intellect*7)
         crit = random.randrange(1,100)
@@ -209,6 +211,8 @@ class mage:
             dam = str(self.damage)
             drawText('Your Fireball hits for '+dam,font,windowSurface,0,0,TEXTCOLOR)
             print 'Your Fireball {0} for {1} damage.'.format(self.dict[random.randrange(0,4)],self.damage)
+        self.f_minion()
+        
     def f_ability1(self):
     	self.damage = 0
         shield = random.randrange(self.intellect+(self.wisdom/2),(self.intellect+(self.wisdom/2))*3)
@@ -216,9 +220,21 @@ class mage:
         shield = str(shield)
         drawText('You create a '+shield+' point shield.',font,windowSurface,0,0,TEXTCOLOR)
         print "You create a {0} point shield".format(shield)
-     
-    #def f_ability2(self):
-       
+     	self.f_minion()
+     	
+    def f_ability2(self):
+    	self.minion = 4
+    	self.f_minion()
+    	
+    def f_minion(self):
+    	minion_damage = (self.intellect + self.wisdom)/2
+     	if (self.minion):
+     		self.damage += minion_damage
+     		self.minion -= 1
+     		drawText('Your minion hits for '+minion_damage,font,windowSurface,0,50, TEXTCOLOR)
+     		print "Your minion hits for {0} damage.".format(minion_damage)
+     		
+     	
     def f_health(self):
         print "You have {0} health and {1} shield remaining".format(self.health, self.shield)
         
