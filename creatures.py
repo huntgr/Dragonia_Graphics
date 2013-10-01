@@ -11,7 +11,7 @@ pygame.init()
 font = pygame.font.SysFont('centaur', 22)
 mainClock = pygame.time.Clock()
 windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
-TEXT = 500
+TEXT = 450
 
 def drawText(text, font, surface, x, y, color):
     textobj = font.render(text, 1, color)
@@ -25,7 +25,7 @@ class cyclops:
         self.health = 700
         self.stamina = 70
         self.damage = 0
-        self.miss = 25
+        self.miss = 10
         self.last = -1
         self.dict = ['SMASHES','HITS','CRUSHES','OBLITERATES','SCRAPES','BARELY HITS','CRITS','misses']
         self.target = 'unknown'
@@ -100,7 +100,7 @@ class ogre:
         self.health = 300
         self.stamina = 30
         self.damage = 0
-        self.miss = 20
+        self.miss = 10
         self.last = -1
         self.dict = ['SMASHES','HITS','CRUSHES','OBLITERATES','SCRAPES','BARELY HITS','CRITS','misses']
         self.target = 'unknown'
@@ -181,7 +181,7 @@ class gargoyle:
         self.health = 450
         self.stamina = 45
         self.damage = 0
-        self.miss = 5
+        self.miss = 10
         self.last = -1
         self.dict = ['DECIMATES','HITS','CRUSHES','OBLITERATES','SCRAPES','BARELY HITS','CRITS','misses']
         self.target = 'unknown'
@@ -249,7 +249,7 @@ class dragon:
         self.health = 1000
         self.stamina = 100
         self.damage = 0
-        self.miss = 7
+        self.miss = 10
         self.last = -1
         self.dict = ['HITS','BITES','BURNS','DEVOURES','BREATHES FIRE','CRITS','MISSES']
         self.target = 'unknown'
@@ -347,7 +347,7 @@ class giant_snake:
         self.health = 250
         self.stamina = 25
         self.damage = 0
-        self.miss = 15
+        self.miss = 10
         self.last = -1
         self.counter = 2
         self.dict = ['HITS','BITES','KNICKS','DEVOURES','POISONS','CRITS','MISSES']

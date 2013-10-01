@@ -8,7 +8,7 @@ WINDOWHEIGHT = 504
 TEXTCOLOR = (255,255,255)
 BACKGROUNDCOLOR = (0,0,0)
 pygame.init()
-font = pygame.font.SysFont('centaur', 30)
+font = pygame.font.SysFont('centaur', 22)
 mainClock = pygame.time.Clock()
 windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
@@ -149,10 +149,13 @@ class warlock:
         self.intellect += 30
     def f_offhand(self):
         self.stamina += 10
+        self.health += 100
     def f_belt(self):
         self.stamina += 2
+        self.health += 20
     def f_cloak(self):
         self.stamina += 20
+        self.health += 200
     def f_trinket(self):
         self.intellect += 45
     def f_legendary_weapon(self):
@@ -183,7 +186,7 @@ class mage:
     def f_abilities(self):
         font = pygame.font.SysFont('centaur', 20)
         drawText('(1): Fireball.  This ability does '+str(self.intellect*2)+' to '+str(self.intellect*7)+' damage.  Its damage is increased by your Intellect.',font,windowSurface,100,30,TEXTCOLOR)
-        drawText('(2): Barrier.  This ability creates a magical shield that absorbs '+str(self.intellect+(self.wisdom/2))+' to '+str((self.intellect+(self.wisdom/2))*2)+' damage.',font,windowSurface,100,60,TEXTCOLOR)
+        drawText('(2): Barrier.  This ability creates a magical shield that absorbs '+str(self.intellect+(self.wisdom/2))+' to '+str((self.intellect+(self.wisdom/2))*3)+' damage.',font,windowSurface,100,60,TEXTCOLOR)
         drawText('     The amount absorbed increases based on Intellect and Wisdom',font,windowSurface,100,90,TEXTCOLOR)
         print "Fireball(1).  This ability does {0} to {1} damage.\n".format(self.intellect*2,self.intellect*7)
         print "Barrier(2). This ability creates a magical shield that absorbs {0} to {1} damage.".format(self.intellect+(self.wisdom/2),(self.intellect+(self.wisdom/2))*2)
@@ -208,7 +211,7 @@ class mage:
             print 'Your Fireball {0} for {1} damage.'.format(self.dict[random.randrange(0,4)],self.damage)
     def f_ability1(self):
     	self.damage = 0
-        shield = random.randrange(self.intellect+(self.wisdom/2),(self.intellect+(self.wisdom/2))*2)
+        shield = random.randrange(self.intellect+(self.wisdom/2),(self.intellect+(self.wisdom/2))*3)
         self.shield = shield
         shield = str(shield)
         drawText('You create a '+shield+' point shield.',font,windowSurface,0,0,TEXTCOLOR)
@@ -236,16 +239,20 @@ class mage:
         self.intellect += 30
     def f_offhand(self):
         self.stamina += 10
+        self.health += 100
     def f_belt(self):
         self.stamina += 2
+        self.health += 20
     def f_cloak(self):
         self.stamina += 20
+        self.health += 200
     def f_trinket(self):
         self.intellect += 45
     def f_legendary_weapon(self):
         self.intellect += 100
     def f_eye(self):
         self.stamina += 50
+        self.health += 500
             
 class warrior:
     def __init__(self,name):
@@ -368,14 +375,17 @@ class warrior:
         self.strength += 15
     def f_belt(self):
         self.stamina += 2
+        self.health += 20
     def f_cloak(self):
         self.stamina += 20
+        self.health += 200
     def f_trinket(self):
         self.strength += 95
     def f_legendary_weapon(self):
         self.strength += 200
     def f_eye(self):
         self.stamina += 50
+        self.health += 500
 
 class cleric:
     def __init__(self,name):
@@ -469,7 +479,7 @@ class cleric:
     def f_ability2(self):
     	damage = self.wisdom
     	wisdom_gain = 1
-    	heal_amt = round(self.wisdom*3.14, 0)
+    	heal_amt = round(self.wisdom*2.14, 0)
     	if (self.empowered):
     		wisdom_gain = 2
     		self.empowered = 0
@@ -507,8 +517,10 @@ class cleric:
         self.strength += 15
     def f_belt(self):
         self.stamina += 2
+        self.health += 20
     def f_cloak(self):
         self.stamina += 20
+        self.health += 200
     def f_trinket(self):
         self.strength += 45
         self.intellect += 45
@@ -517,3 +529,4 @@ class cleric:
         self.intellect += 75
     def f_eye(self):
         self.stamina += 50
+        self.health += 500

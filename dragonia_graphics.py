@@ -569,7 +569,136 @@ def draw_enemies(the_enemies):
         windowSurface.blit(the_enemies[i][0],the_enemies[i][1])
         i += 1
         #pygame.display.update()
-    
+
+def loot(enemy):
+    rand = random.randint(0,100)
+    dropped = False
+    if enemy[2].name == 'gargoyle':
+        if rand >= 0 and rand < 15:
+            lootImage = pygame.image.load('sword.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'sword']
+            dropped = True
+        elif rand >= 15 and rand < 25:
+            lootImage = pygame.image.load('belt.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'belt']
+            dropped = True
+        elif rand >= 25 and rand < 30:
+            lootImage = pygame.image.load('cloak.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'cloak']
+            dropped = True
+        elif rand >= 30 and rand < 31:
+            lootImage = pygame.image.load('legendary.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'legendary']
+            dropped = True
+        else:
+            dropped = False
+    elif enemy[2].name == 'snake':
+        if rand >= 0 and rand < 8:
+            lootImage = pygame.image.load('sword.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'sword']
+            dropped = True
+        elif rand >= 8 and rand < 25:
+            lootImage = pygame.image.load('belt.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'belt']
+            dropped = True
+        elif rand >= 25 and rand < 28:
+            lootImage = pygame.image.load('cloak.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'cloak']
+            dropped = True
+        elif rand >= 28 and rand < 29:
+            lootImage = pygame.image.load('legendary.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'legendary']
+            dropped = True
+        else:
+            dropped = False
+    elif enemy[2].name == 'dragon':
+        if rand >= 0 and rand < 40:
+            lootImage = pygame.image.load('sword.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'sword']
+            dropped = True
+        elif rand >= 40 and rand < 50:
+            lootImage = pygame.image.load('belt.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'belt']
+            dropped = True
+        elif rand >= 50 and rand < 57:
+            lootImage = pygame.image.load('cloak.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'cloak']
+            dropped = True
+        elif rand >= 58 and rand < 63:
+            lootImage = pygame.image.load('legendary.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'legendary']
+            dropped = True
+        else:
+            dropped = False
+    elif enemy[2].name == 'ogre':
+        if rand >= 0 and rand < 11:
+            lootImage = pygame.image.load('sword.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'sword']
+            dropped = True
+        elif rand >= 11 and rand < 25:
+            lootImage = pygame.image.load('belt.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'belt']
+            dropped = True
+        elif rand >= 25 and rand < 29:
+            lootImage = pygame.image.load('cloak.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'cloak']
+            dropped = True
+        elif rand >= 29 and rand < 30:
+            lootImage = pygame.image.load('legendary.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'legendary']
+            dropped = True
+        else:
+            dropped = False
+    elif enemy[2].name == 'cyclops':
+        if rand >= 0 and rand < 35:
+            lootImage = pygame.image.load('sword.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'sword']
+            dropped = True
+        elif rand >= 35 and rand < 45:
+            lootImage = pygame.image.load('belt.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'belt']
+            dropped = True
+        elif rand >= 45 and rand < 52:
+            lootImage = pygame.image.load('cloak.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'cloak']
+            dropped = True
+        elif rand >= 52 and rand < 58:
+            lootImage = pygame.image.load('eye.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'eye']
+            dropped = True
+        elif rand >= 58 and rand < 60:
+            lootImage = pygame.image.load('legendary.png')
+            lootRect = lootImage.get_rect()
+            data = [lootImage,lootRect,True,'legendary']
+            dropped = True
+        else:
+            dropped = False
+    if dropped == False:
+        lootImage = pygame.image.load('sword.png')
+        lootRect = lootImage.get_rect()
+        data = [lootImage,lootRect,False,'Nothing']
+    return data
+
 pygame.init()
 mainClock = pygame.time.Clock()
 windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
@@ -595,6 +724,7 @@ the_enemies = all_enemies(enemies,locations)
 #topScore = 0
 while True:
     # set up the start of the game
+    drop = False
     locations = [(120,20),(240,20),(360,20),(480,20),(600,20),(720,20),(0,130),(120,130),(240,130),(360,130),(480,130),(600,130),(720,130),(0,260),(120,260),(240,260),(360,260),(480,260),(600,260),(720,260),(0,390),(120,390),(240,390),(360,390),(480,390),(600,390),(720,390)]
     score = 0
     moveLeft = moveRight = moveUp = moveDown = False
@@ -607,6 +737,7 @@ while True:
     class_abilities(player)
     the_enemies = all_enemies(enemies,locations)
     you_win = False
+    leveled = False
     while True: # the game loop runs while the game part is playing
         #score += 1 # increase score
 
@@ -658,13 +789,19 @@ while True:
         # Draw the player's rectangle
         windowSurface.blit(player[0], player[1])
         draw_enemies(the_enemies)
+        if drop != False:
+                windowSurface.blit(the_drop[0],the_drop[1])
+                #time.sleep(2)
         # add health above enemies and players
         player_health(player[2].health,player,player[2].shield)
         j = 0
         while j!= len(the_enemies):
+            if player[2].lvl > 1 and leveled == True:
+                the_enemies[j][2].health += player[2].lvl*50
+                the_enemies[j][2].miss -= 1
             enemy_health(the_enemies[j][2].health,the_enemies[j])
             j += 1
-
+        leveled = False
         if player[2].shield != 0:
                 if player[2].cls == 'mage':
                     ability2 = mage_shield()
@@ -676,7 +813,50 @@ while True:
                 
         # Check if any of the enemies have hit the player.
         current_enemy = playerHasHitEnemy(player[1], the_enemies)
+        if drop == True:
+            picked_up_loot = player[1].colliderect(the_drop[1])
+            if picked_up_loot:
+                drop = False
+                if the_drop[3] == 'sword':
+                    drawText('You found a Sword!',font,windowSurface,0,0,(0,0,0))
+                    drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
+                    pygame.display.update()
+                    moveLeft = moveRight = moveUp = moveDown = False
+                    waitForPlayerToPressKey()
+                    player[2].f_sword()
+                if the_drop[3] == 'belt':
+                    drawText('You found a Belt!',font,windowSurface,0,0,(0,0,0))
+                    drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
+                    pygame.display.update()
+                    moveLeft = moveRight = moveUp = moveDown = False
+                    waitForPlayerToPressKey()
+                    player[2].f_belt()
+                if the_drop[3] == 'cloak':
+                    drawText('You found a Cloak!',font,windowSurface,0,0,(0,0,0))
+                    drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
+                    pygame.display.update()
+                    moveLeft = moveRight = moveUp = moveDown = False
+                    waitForPlayerToPressKey()
+                    player[2].f_cloak()
+                if the_drop[3] == 'eye':
+                    drawText('You found the Cyclops\' eye!',font,windowSurface,0,0,(0,0,0))
+                    drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
+                    pygame.display.update()
+                    moveLeft = moveRight = moveUp = moveDown = False
+                    waitForPlayerToPressKey()
+                    player[2].f_eye()
+                if the_drop[3] == 'eye':
+                    drawText('You found a LEGENDARY weapon.',font,windowSurface,0,0,(0,0,0))
+                    drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
+                    pygame.display.update()
+                    moveLeft = moveRight = moveUp = moveDown = False
+                    waitForPlayerToPressKey()
+                    player[2].f_legendary_weapon()
+        player_health(player[2].health,player,player[2].shield)
+        pygame.display.update()
         if current_enemy != -1:
+            loot_drop = the_enemies[current_enemy][1].topleft
+            loot_drop = (loot_drop[0]+20,loot_drop[1]+20)
             moveLeft = moveRight = moveUp = moveDown = False
             drawText('You have encountered an enemy! Prepare to fight!',font,windowSurface,0,0,(0,0,0))
             pygame.display.update()
@@ -685,11 +865,24 @@ while True:
             if alive[0] == False:
                 break
             elif alive[1] == False:
+                print the_enemies
+                print current_enemy
+                print the_enemies[current_enemy]
+                the_drop = loot(the_enemies[current_enemy])
+                if the_drop[2] == True:
+                    drop = True
+                    the_drop[1].topleft = loot_drop
+                else:
+                    drop = False
                 the_enemies.remove(the_enemies[current_enemy])
+                leveled = True
                 if the_enemies == []:
                     you_win = True
                     break
             draw_enemies(the_enemies)
+            if drop != False:
+                windowSurface.blit(the_drop[0],the_drop[1])
+                #time.sleep(2)
             windowSurface.blit(player[0], player[1])
             if player[2].shield != 0:
                 if player[2].cls == 'mage':
