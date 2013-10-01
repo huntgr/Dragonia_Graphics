@@ -417,14 +417,14 @@ class cleric:
         drawText('      Divine Judgment also causes your next ability to have additional effects.',font,windowSurface,100,90,TEXTCOLOR)
         drawText('          Holy Blow does additional damage',font,windowSurface,100,120,TEXTCOLOR)
         drawText('          Divine Judgement heals you.',font,windowSurface,100,150,TEXTCOLOR)
-        drawText('          Divin Sagicity grants 2 Wisdom instead of 1.',font,windowSurface,100,180,TEXTCOLOR)
+        drawText('          Divin Sagicity grants 1 Wisdom.',font,windowSurface,100,180,TEXTCOLOR)
         drawText('(3): Divine Sagicity. This ability deals damage equal to',font,windowSurface,100,210,TEXTCOLOR)
-        drawText('     your Wisdom, heals you and increases your wisdom by 1.',font,windowSurface,100,240,TEXTCOLOR)
+        drawText('     your Wisdom, heals you and increases your wisdom by 1 if Empowered.',font,windowSurface,100,240,TEXTCOLOR)
         print "Holy Blow(1).  This ability does {0} to {1} damage.\n".format((self.strength + self.intellect)*3,(self.strength + self.intellect)*4)
         print "Devine Judgment(2). This ability does {0} to {1} damage.".format(self.wisdom*2, self.wisdom*5)
         print "You enter a state of devine empowerment adding addition effects to your next attack."
         print "Holy Blow will deal additional damage, Devine Judgment will heal you, Devine Sagicity grants 2 wisdom."
-        print "Devine Sagicity(3) deals {0} damage, heals, and increases your wisdom by 1".format(self.wisdom)
+        print "Devine Sagicity(3) deals {0} damage, heals, and increases your wisdom by 1 if Empowered".format(self.wisdom)
     def f_ability0(self):
         damage = random.randrange((self.strength + self.intellect)*3,(self.strength + self.intellect)*4)
         crit = random.randrange(1,100)
@@ -478,13 +478,12 @@ class cleric:
     
     def f_ability2(self):
     	damage = self.wisdom
-    	wisdom_gain = 1
     	heal_amt = round(self.wisdom*2, 0)
     	if (self.empowered):
-    		wisdom_gain = 2
+    		wisdom_gain = 1
     		self.empowered = 0
     	else:
-    		widsom_gain = 1
+            wisdom_gain = 0
     	self.damage = damage
     	self.wisdom += wisdom_gain
     	self.health += heal_amt

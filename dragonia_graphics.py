@@ -209,7 +209,7 @@ def abilityone(ability1,place,enemy_place,plyr,enemy,player):
             ability2[1].topleft = (150,350)
             windowSurface.blit(ability2[0],ability2[1])
         pygame.display.update()
-        time.sleep(0.2)
+        time.sleep(0.1)
         i += 1
 
 def enemy_attack(place,enemy_place,plyr,player):
@@ -241,7 +241,7 @@ def enemy_attack(place,enemy_place,plyr,player):
             windowSurface.blit(ability2[0],ability2[1])
         i += 1
         pygame.display.update()
-        time.sleep(0.2)
+        time.sleep(0.1)
     enemy[1].topleft = (500,200)
         
 def terminate():
@@ -343,7 +343,7 @@ def battle(place,player,enemy):
 ##                        windowSurface.blit(ability2[0],ability2[1])
                     alive = damage(enemy[2],player[2],alive)
                     pygame.display.update()
-                    time.sleep(2)
+                    time.sleep(1)
 
                 if event.key == ord('2'):
                     if player[2].cls == 'mage':
@@ -398,7 +398,7 @@ def battle(place,player,enemy):
                         windowSurface.blit(ability2[0],ability2[1])
                     alive = damage(enemy[2],player[2],alive)
                     pygame.display.update()
-                    time.sleep(2)
+                    time.sleep(1)
                   
                 if event.key == ord('3'):
                     if player[2].cls == 'warlock':
@@ -456,7 +456,7 @@ def battle(place,player,enemy):
             level_up(player)
             #player_health(player[2].health,plyr,player[2].shield)
             pygame.display.update()
-            time.sleep(2)
+            time.sleep(1)
         #player_health(player[2].health,plyr,player[2].shield)
         pygame.display.update()
     return alive
@@ -845,7 +845,7 @@ while True:
                     moveLeft = moveRight = moveUp = moveDown = False
                     waitForPlayerToPressKey()
                     player[2].f_eye()
-                if the_drop[3] == 'eye':
+                if the_drop[3] == 'legendary':
                     drawText('You found a LEGENDARY weapon.',font,windowSurface,0,0,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
