@@ -420,17 +420,17 @@ class cleric:
         drawText('          Divin Sagicity grants 2 Wisdom instead of 1.',font,windowSurface,100,180,TEXTCOLOR)
         drawText('(3): Divine Sagicity. This ability deals damage equal to',font,windowSurface,100,210,TEXTCOLOR)
         drawText('     your Wisdom, heals you and increases your wisdom by 1.',font,windowSurface,100,240,TEXTCOLOR)
-        print "Holy Blow(1).  This ability does {0} to {1} damage.\n".format(self.strength+self.intellect,(self.strength + self.intellect)*3)
+        print "Holy Blow(1).  This ability does {0} to {1} damage.\n".format((self.strength + self.intellect)*3,(self.strength + self.intellect)*4)
         print "Devine Judgment(2). This ability does {0} to {1} damage.".format(self.wisdom*2, self.wisdom*5)
         print "You enter a state of devine empowerment adding addition effects to your next attack."
         print "Holy Blow will deal additional damage, Devine Judgment will heal you, Devine Sagicity grants 2 wisdom."
         print "Devine Sagicity(3) deals {0} damage, heals, and increases your wisdom by 1".format(self.wisdom)
     def f_ability0(self):
-        damage = random.randrange((self.strength + self.intellect)*2,(self.strength + self.intellect)*3)
+        damage = random.randrange((self.strength + self.intellect)*3,(self.strength + self.intellect)*4)
         crit = random.randrange(1,100)
         miss = random.randrange(1,100)
         if (self.empowered):
-        	damage = round(damage*1.25,0)
+        	damage = round(damage*1.5,0)
         	self.empowered = 0
         if miss <= self.miss:
             self.damage = 0
