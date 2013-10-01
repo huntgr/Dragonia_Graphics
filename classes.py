@@ -479,7 +479,7 @@ class cleric:
     def f_ability2(self):
     	damage = self.wisdom
     	wisdom_gain = 1
-    	heal_amt = round(self.wisdom*2.14, 0)
+    	heal_amt = round(self.wisdom*2, 0)
     	if (self.empowered):
     		wisdom_gain = 2
     		self.empowered = 0
@@ -488,6 +488,8 @@ class cleric:
     	self.damage = damage
     	self.wisdom += wisdom_gain
     	self.health += heal_amt
+    	if self.health > (self.stamina*10):
+            self.health = self.stamina*10
     	wis = str(wisdom_gain)
     	dam = str(self.damage)
     	heal = str(heal_amt)
