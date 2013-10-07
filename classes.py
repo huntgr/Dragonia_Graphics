@@ -231,7 +231,7 @@ class warlock:
             self.health += (self.damage/5)+heal_control
             dam = str(self.damage)
             heal = str((self.damage/5)+heal_control)
-            drawText('Your Power Siphon hits for '+dam,font,windowSurface,0,0,TEXTCOLOR)
+            drawText('Your Power Siphon HITS for '+dam,font,windowSurface,0,0,TEXTCOLOR)
             drawText('and heals you for '+heal,font,windowSurface,0,25,TEXTCOLOR)
             print 'Your Power Siphon {0} for {1} damage.'.format(self.dict[5],self.damage)
             print 'and heals you for {0}.'.format((self.damage/5)+heal_control)
@@ -242,7 +242,7 @@ class warlock:
             self.health += (damage/6)+heal_control
             dam = str(self.damage)
             heal = str((damage/6)+heal_control)
-            drawText('Your Power Siphon hits for '+dam,font,windowSurface,0,0,TEXTCOLOR)
+            drawText('Your Power Siphon HITS for '+dam,font,windowSurface,0,0,TEXTCOLOR)
             drawText('and heals you for '+heal,font,windowSurface,0,25,TEXTCOLOR)
             print 'Your Power Siphon {0} for {1} damage.'.format(self.dict[random.randrange(0,4)],self.damage)
             print 'and heals you for {0}.'.format((damage/6)+heal_control)
@@ -265,7 +265,7 @@ class warlock:
             self.health -= sac_hp
             dam = str(self.damage)
             hp = str(sac_hp)
-            drawText('Your Entropic Assault crits for '+dam,font,windowSurface,0,0,TEXTCOLOR)
+            drawText('Your Entropic Assault CRITS for '+dam,font,windowSurface,0,0,TEXTCOLOR)
             drawText(hp+' health consumed.',font,windowSurface,0,25,TEXTCOLOR)
             print "Your Entropic Assault crits for {0} damage.".format(self.damage)
             print "{0} health consumed.".format(sac_hp)
@@ -274,7 +274,7 @@ class warlock:
             self.health -= sac_hp
             dam = str(self.damage)
             hp = str(sac_hp)
-            drawText('Your Entropic Assault crits for '+dam,font,windowSurface,0,0,TEXTCOLOR)
+            drawText('Your Entropic Assault HITS for '+dam,font,windowSurface,0,0,TEXTCOLOR)
             drawText(hp+' health consumed.',font,windowSurface,0,25,TEXTCOLOR)
             print "Your Entropic Assault deals {0} damage.".format(self.damage)
             print "{0} health consumed.".format(sac_hp)

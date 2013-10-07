@@ -497,8 +497,6 @@ def battle(place,player,enemy):
                         time.sleep(1)
                         
                 if event.key == ord('3'):
-                    if player[2].cls == 'warlock':
-                        player[2].f_ability2()
                     if player[2].cls == 'warrior':
                         default_attack(place,enemy_place,plyr,player,en_attack,min_attack)
                     if player[2].cls == 'mage':
