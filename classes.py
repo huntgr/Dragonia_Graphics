@@ -308,6 +308,9 @@ class warlock:
         self.health += 200
     def f_trinket(self):
         self.intellect += 45
+    def f_eye(self):
+        self.stamina += 50
+        self.health += 500
     def f_legendary_weapon(self):
         self.intellect += 100
     def f_air(self):
