@@ -129,7 +129,7 @@ class swashbuckler:
     		print "Your Shank CRITS for {0} damage!".format(self.damage)
     		print "The enemy is bleeding."
     		drawText('You CRIT for '+str(self.damage),font,windowSurface,0,0,TEXTCOLOR)
-    		drawText('Your enemy bleeds.',font,windowSurface,0,60,TEXTCOLOR)
+    		drawText('Your enemy bleeds.',font,windowSurface,0,30,TEXTCOLOR)
     	else:
     		self.damage = damage
     		print "Your Shank hits for {0} damage.".format(self.damage)
@@ -142,7 +142,7 @@ class swashbuckler:
     		self.damage += bleed_damage
     		self.bleed -= 1
     		print "Your enemy's wounds bleed for {0} damage.".format(bleed_damage)
-    		drawText("Your enemy's wounds bleed for "+str(bleed_damage),font,windowSurface,0,90,TEXTCOLOR)
+    		drawText("Your enemy's wounds bleed for "+str(bleed_damage),font,windowSurface,0,60,TEXTCOLOR)
     	
     def f_health(self):
         print "You have {0} health remaining".format(self.health)
