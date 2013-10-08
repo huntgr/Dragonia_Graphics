@@ -709,22 +709,22 @@ def loot(enemy):
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'belt']
             dropped = True
-        elif rand >= 25 and rand < 30:
+        elif rand >= 25 and rand < 27:
             lootImage = pygame.image.load('cloak_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'cloak']
             dropped = True
-        elif rand >= 30 and rand < 31:
+        elif rand == 27:
             lootImage = pygame.image.load('legendary_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'legendary']
             dropped = True
-        elif rand >=31 and rand < 35:
+        elif rand >= 28 and rand < 34:
             lootImage = pygame.image.load('trinket_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'trinket']
             dropped = True
-        elif rand >= 35 and rand < 53:
+        elif rand >= 34 and rand < 53:
             lootImage = pygame.image.load('air_essence.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'air']
@@ -747,32 +747,27 @@ def loot(enemy):
         else:
             dropped = False
     elif enemy[2].name == 'snake':
-        if rand >= 0 and rand < 8:
+        if rand >= 0 and rand < 5:
             lootImage = pygame.image.load('sword_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'sword']
             dropped = True
-        elif rand >= 8 and rand < 25:
+        elif rand >= 5 and rand < 25:
             lootImage = pygame.image.load('belt_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'belt']
             dropped = True
-        elif rand >= 25 and rand < 28:
+        elif rand >= 25 and rand < 27:
             lootImage = pygame.image.load('cloak_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'cloak']
             dropped = True
-        elif rand >= 28 and rand < 29:
-            lootImage = pygame.image.load('legendary_dragonia.png')
-            lootRect = lootImage.get_rect()
-            data = [lootImage,lootRect,True,'legendary']
-            dropped = True
-        elif rand == 29:
+        elif rand == 27:
             lootImage = pygame.image.load('trinket_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'trinket']
             dropped = True
-        elif rand >= 30 and rand < 48:
+        elif rand >= 28 and rand < 48:
             lootImage = pygame.image.load('air_essence.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'air']
@@ -843,32 +838,27 @@ def loot(enemy):
         else:
             dropped = False
     elif enemy[2].name == 'ogre':
-        if rand >= 0 and rand < 11:
+        if rand >= 0 and rand < 5:
             lootImage = pygame.image.load('sword_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'sword']
             dropped = True
-        elif rand >= 11 and rand < 25:
+        elif rand >= 5 and rand < 25:
             lootImage = pygame.image.load('belt_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'belt']
             dropped = True
-        elif rand >= 25 and rand < 29:
+        elif rand >= 25 and rand < 27:
             lootImage = pygame.image.load('cloak_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'cloak']
             dropped = True
-        elif rand >= 29 and rand < 30:
-            lootImage = pygame.image.load('legendary_dragonia.png')
-            lootRect = lootImage.get_rect()
-            data = [lootImage,lootRect,True,'legendary']
-            dropped = True
-        elif rand >=30 and rand < 31:
+        elif rand == 27:
             lootImage = pygame.image.load('trinket_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'trinket']
             dropped = True
-        elif rand >= 31 and rand < 49:
+        elif rand >= 28 and rand < 49:
             lootImage = pygame.image.load('air_essence.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'air']
@@ -891,37 +881,32 @@ def loot(enemy):
         else:
             dropped = False
     elif enemy[2].name == 'gargantuan':
-        if rand >= 0 and rand < 35:
+        if rand >= 0 and rand < 15:
             lootImage = pygame.image.load('sword_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'sword']
             dropped = True
-        elif rand >= 35 and rand < 45:
+        elif rand >= 15 and rand < 45:
             lootImage = pygame.image.load('belt_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'belt']
             dropped = True
-        elif rand >= 45 and rand < 52:
+        elif rand >= 45 and rand < 48:
             lootImage = pygame.image.load('cloak_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'cloak']
             dropped = True
-        elif rand >= 52 and rand < 58:
-            lootImage = pygame.image.load('eye.png')
-            lootRect = lootImage.get_rect()
-            data = [lootImage,lootRect,True,'eye']
-            dropped = True
-        elif rand >= 58 and rand < 60:
+        elif rand == 48:
             lootImage = pygame.image.load('legendary_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'legendary']
             dropped = True
-        elif rand >=60 and rand < 65:
+        elif rand >= 49 and rand < 55:
             lootImage = pygame.image.load('trinket_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'trinket']
             dropped = True
-        elif rand >= 65 and rand < 74:
+        elif rand >= 55 and rand < 74:
             lootImage = pygame.image.load('water_essence.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'water']
@@ -997,32 +982,27 @@ def loot(enemy):
         else:
             dropped = False
     elif enemy[2].name == 'zombie':
-        if rand >= 0 and rand < 11:
+        if rand >= 0 and rand < 4:
             lootImage = pygame.image.load('sword_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'sword']
             dropped = True
-        elif rand >= 11 and rand < 25:
+        elif rand >= 4 and rand < 25:
             lootImage = pygame.image.load('belt_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'belt']
             dropped = True
-        elif rand >= 25 and rand < 29:
+        elif rand >= 25 and rand < 26:
             lootImage = pygame.image.load('cloak_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'cloak']
             dropped = True
-        elif rand >= 29 and rand < 30:
-            lootImage = pygame.image.load('legendary_dragonia.png')
-            lootRect = lootImage.get_rect()
-            data = [lootImage,lootRect,True,'legendary']
-            dropped = True
-        elif rand >=30 and rand < 31:
+        elif rand >= 26 and rand < 28:
             lootImage = pygame.image.load('trinket_dragonia.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'trinket']
             dropped = True
-        elif rand >= 31 and rand < 49:
+        elif rand >= 28 and rand < 49:
             lootImage = pygame.image.load('air_essence.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'air']
@@ -1065,7 +1045,7 @@ pygame.mixer.music.load('background_.ogg')
 #enemy locations
 locations = [(120,20),(240,20),(360,20),(480,20),(600,20),(720,20),(0,130),(120,130),(240,130),(360,130),(480,130),(600,130),(720,130),(0,260),(120,260),(240,260),(360,260),(480,260),(600,260),(720,260),(0,390),(120,390),(240,390),(360,390),(480,390),(600,390),(720,390)]
 #enemy setup
-enemies = ['ogre.png','snake.png','gargoyle_dragonia.png','dragon.png','cyclops_dragonia.png','gargantuan_dragonia.png','zombie.png']
+enemies = ['ogre.png','snake.png','gargoyle_dragonia.png','dragon.png','cyclops_dragonia.png','gargantuan_dragonia.png','zombie_dragonia.png']
 #enemy = pick_enemy(enemies)
 
 #set up load screen

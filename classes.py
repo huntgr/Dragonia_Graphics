@@ -66,7 +66,7 @@ class swashbuckler:
     	crit = random.randrange(1,100)
         miss = random.randrange(1,100)
         dodge = random.randint(0,100)
-        if dodge <= self.dexterity/10:
+        if dodge <= self.dexterity/20:
             self.dodge = True
         else:
             self.dodge = False
@@ -281,8 +281,8 @@ class warlock:
             
     def f_ability2(self):
         self.damage = 0
-    	sac_hp = self.health*0.1
-    	sac_shield = self.health*0.3
+    	sac_hp = round(self.health*0.1,0)
+    	sac_shield = round(self.health*0.3,0)
     	self.health -= sac_hp
     	self.shield += sac_shield
     	shield = str(sac_shield)
