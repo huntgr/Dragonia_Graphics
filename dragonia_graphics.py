@@ -317,9 +317,9 @@ def waitForPlayerToPressKey(thing):
                     terminate()
                 elif event.key == K_RETURN:
                     return False
-            if thing == True:
-                if event.key == ord('r'):
-                    return True
+                if thing == True:
+                    if event.key == ord('r'):
+                        return True
 
 def playerHasHitEnemy(playerRect, the_enemies):
     i = 0
