@@ -1071,7 +1071,6 @@ ZombieASound = pygame.mixer.Sound('zombie_attack.wav')
 ZombieBSound = pygame.mixer.Sound('zombie_eating.wav')
 laugh = pygame.mixer.Sound('laugh.wav')
 LowHPSound = pygame.mixer.Sound('low_hp.wav')
-pygame.mixer.music.load('background_.ogg')
 
 #enemy locations
 locations = [(120,20),(240,20),(360,20),(480,20),(600,20),(720,20),(0,130),(120,130),(240,130),(360,130),(480,130),(600,130),(720,130),(0,260),(120,260),(240,260),(360,260),(480,260),(600,260),(720,260),(0,390),(120,390),(240,390),(360,390),(480,390),(600,390),(720,390)]
@@ -1090,6 +1089,7 @@ while True:
     locations = [(120,20),(240,20),(360,20),(480,20),(600,20),(720,20),(0,130),(120,130),(240,130),(360,130),(480,130),(600,130),(720,130),(0,260),(120,260),(240,260),(360,260),(480,260),(600,260),(720,260),(0,390),(120,390),(240,390),(360,390),(480,390),(600,390),(720,390)]
     score = 0
     moveLeft = moveRight = moveUp = moveDown = False
+    pygame.mixer.music.load('background_.ogg')
     pygame.mixer.music.play(-1, 0.0)
     heroes = ['mage_dragonia.png','warrior_dragonia.png','cleric_dragonia.png','warlock_dragonia.png','swashbuckler_dragonia.png']
     #windowSurface.fill(BACKGROUNDCOLOR)
