@@ -240,10 +240,11 @@ def abilityone(ability1,place,enemy_place,plyr,enemy,player,en_attack,min_attack
     enemy = enemy_place
     if room == True:
         laugh.play(0,900)
+    if player[2].cls == 'mage':
+        if room != True:
+            FireballSound.play(0,900)
     for i in range(16):
         if player[2].cls == 'mage':
-            if room != True:
-                FireballSound.play(0,500)
             mage_battle(place,enemy_place,plyr,enemy,player,en_attack,min_attack)
             ability1[1].topleft = (220+(i*17),290)
             windowSurface.blit(ability1[0], ability1[1])
@@ -262,6 +263,9 @@ def default_attack(place,enemy_place,plyr,player,en_attack,min_attack):
     enemy = enemy_place
     if room == True:
         laugh.play(0,900)
+    if player[2].cls == 'swashbuckler':
+        if room != True:
+            SwordSound.play(0,900)
     for i in range(16):
         plyr[1].topleft = (200+(i*17),400)
         if player[2].cls == 'mage':
@@ -1070,6 +1074,7 @@ LaserSound = pygame.mixer.Sound('laser.wav')
 ZombieASound = pygame.mixer.Sound('zombie_attack.wav')
 ZombieBSound = pygame.mixer.Sound('zombie_eating.wav')
 laugh = pygame.mixer.Sound('laugh.wav')
+SwordSound = pygame.mixer.Sound('sword.wav')
 LowHPSound = pygame.mixer.Sound('low_hp.wav')
 
 #enemy locations
