@@ -39,10 +39,13 @@ class swashbuckler:
         self.miss = 300/(self.dexterity+self.strength)
         self.crit = (self.dexterity+self.intellect+self.wisdom+self.strength)/5
         self.dict = ['SLICES','WOUNDS','HITS','GLANCES','DEMOLISHES','CRITS','MISSES']
-        self.target = 'unknown'
         self.abilities = ['Daring Strike(1), Puncture(2)']
-        self.xp = 0
         self.lvl = 1
+        self.attack1 = pygame.mixer.Sound('swash_attack1.wav')
+        self.attack2 = pygame.mixer.Sound('swash_attack1.wav')
+        self.attack3 = pygame.mixer.Sound('swash_attack3.wav')
+        self.death = pygame.mixer.Sound('player_death.wav')
+        self.potion = pygame.mixer.Sound('potion.wav')
     def f_displayStats(self):
         print "Class: ", self.cls, "\nName: ", self.name, "\nStamina: ", self.stamina, "\nWisdom: ", self.wisdom, "\nIntellect: ",self.intellect, "\nDexterity: ",self.dexterity, "\nStrength: ",self.strength, "\nMiss: ",self.miss,"\nCrit: ",self.crit
     def f_abilities(self):
@@ -143,14 +146,19 @@ class swashbuckler:
     		self.bleed -= 1
     		print "Your enemy's wounds bleed for {0} damage.".format(bleed_damage)
     		drawText("Your enemy's wounds bleed for "+str(bleed_damage),font,windowSurface,0,60,TEXTCOLOR)
-    	
-    def f_health(self):
-        print "You have {0} health remaining".format(self.health)
+    def f_potion(self):
+        self.potion.play()
+    def f_attack1(self):
+        self.attack1.play()
+    def f_attack2(self):
+        self.attack2.play()
+    def f_attack3(self):
+        self.attack3.play()
+    def f_death(self):
+        self.death.play()
     def f_level(self):
         self.miss = 300/(self.dexterity+self.strength)
         self.crit = (self.dexterity+self.intellect+self.wisdom+self.strength)/5
-        #print "\nYou've reached level {0}".format(self.lvl)
-        #drawText('You reached level '+str(lvl),font,windowSurface,0,0,TEXTCOLOR)
     def f_sword(self):
         self.dexterity += 30
     def f_offhand(self):
@@ -195,10 +203,13 @@ class warlock:
         self.miss = 210/(self.intellect+self.wisdom)
         self.crit = (self.intellect+self.strength+self.wisdom+self.dexterity)/5
         self.dict = ['drains','depletes','consumes','leeches','hits','CRITS','misses']
-        self.target = 'unknown'
         self.abilities = ['Power Siphon','Entropic Assault']
-        self.xp = 0
         self.lvl = 1
+        self.attack1 = pygame.mixer.Sound('warlock_attack1.wav')
+        self.attack2 = pygame.mixer.Sound('warlock_attack2.wav')
+        self.attack3 = pygame.mixer.Sound('warlock_shield.wav')
+        self.death = pygame.mixer.Sound('player_death.wav')
+        self.potion = pygame.mixer.Sound('potion.wav')
     def f_displayStats(self):
         print "Class: ", self.cls, "\nName: ", self.name,"\nLevel: ",self.lvl, "\nStamina: ", self.stamina, "\nWisdom: ", self.wisdom, "\nIntellect: ",self.intellect, "\nDexterity: ",self.dexterity, "\nStrength: ",self.strength, "\nMiss: ",self.miss,"\nCrit: ",self.crit
     def f_abilities(self):
@@ -289,9 +300,16 @@ class warlock:
     	hp = str(sac_hp)
     	drawText('You sacrafice '+hp+' health for '+shield+' shield',font,windowSurface,0,25,TEXTCOLOR)
     	print "You sacrafice {0} health for {1} shield.".format(sac_hp, sac_shield)
-    	
-    def f_health(self):
-        print "You have {0} health and {1} shield remaining".format(self.health, self.shield)
+    def f_potion(self):
+        self.potion.play()
+    def f_attack1(self):
+        self.attack1.play()
+    def f_attack2(self):
+        self.attack2.play()
+    def f_attack3(self):
+        self.attack3.play()
+    def f_death(self):
+        self.death.play()
     def f_level(self):
         self.miss = 210/(self.intellect+self.wisdom)
         self.crit = (self.intellect+self.strength+self.wisdom+self.dexterity)/5
@@ -341,10 +359,13 @@ class mage:
         self.miss = 210/(self.intellect+self.wisdom)
         self.crit = (self.intellect+self.strength+self.wisdom+self.dexterity)/5
         self.dict = ['burns','incinertes','scourches','glances','hits','CRITS','misses']
-        self.target = 'unknown'
         self.abilities = ['Fireball']
-        self.xp = 0
         self.lvl = 1
+        self.attack1 = pygame.mixer.Sound('fireball.wav')
+        self.attack2 = pygame.mixer.Sound('mage_shield.wav')
+        self.attack3 = pygame.mixer.Sound('mage_pet.wav')
+        self.death = pygame.mixer.Sound('player_death.wav')
+        self.potion = pygame.mixer.Sound('potion.wav')
     def f_displayStats(self):
         print "Class: ", self.cls, "\nName: ", self.name, "\nLevel: ",self.lvl,"\nStamina: ", self.stamina, "\nWisdom: ", self.wisdom, "\nIntellect: ",self.intellect, "\nDexterity: ",self.dexterity, "\nStrength: ",self.strength, "\nMiss: ",self.miss,"\nCrit: ",self.crit
     def f_abilities(self):
@@ -419,11 +440,16 @@ class mage:
                     self.min_damage = 0
      		drawText('Your minion hits for '+str(minion_damage),font,windowSurface,0,0, TEXTCOLOR)
      		print "Your minion hits for {0} damage.".format(minion_damage)
-     		
-       
-    def f_health(self):
-        print "You have {0} health and {1} shield remaining".format(self.health, self.shield)
-        
+    def f_potion(self):
+        self.potion.play() 		
+    def f_attack1(self):
+        self.attack1.play()
+    def f_attack2(self):
+        self.attack2.play()
+    def f_attack3(self):
+        self.attack3.play()
+    def f_death(self):
+        self.death.play()
     def f_level(self):
         self.miss = 210/(self.intellect+self.wisdom)
         self.crit = (self.intellect+self.strength+self.wisdom+self.dexterity)/5
@@ -473,10 +499,13 @@ class warrior:
         self.miss = 240/(self.strength+self.dexterity)
         self.crit = (self.dexterity+self.intellect+self.wisdom+self.strength)/5
         self.dict = ['SLICES','WOUNDS','HITS','GLANCES','DEMOLISHES','CRITS','MISSES']
-        self.target = 'unknown'
         self.abilities = ['Heroic Slash']
-        self.xp = 0
         self.lvl = 1
+        self.attack1 = pygame.mixer.Sound('warrior_attack1.wav')
+        self.attack2 = pygame.mixer.Sound('warrior_attack2.wav')
+        self.attack3 = pygame.mixer.Sound('warrior_attack3.wav')
+        self.death = pygame.mixer.Sound('player_death.wav')
+        self.potion = pygame.mixer.Sound('potion.wav')
     def f_displayStats(self):
         print "Class: ", self.cls, "\nName: ", self.name,"\nLevel: ",self.lvl, "\nStamina: ", self.stamina, "\nWisdom: ", self.wisdom, "\nIntellect: ",self.intellect, "\nDexterity: ",self.dexterity, "\nStrength: ",self.strength, "\nMiss: ",self.miss,"\nCrit: ",self.crit
     def f_abilities(self):
@@ -574,9 +603,16 @@ class warrior:
         drawText(dam1+', '+dam2+' and '+dam3,font,windowSurface,0,50,TEXTCOLOR)
     	print "Primed for battle..."
     	print "Your furious barrage of blows deal {0}, {1}, and {2} damage".format(furious_bar[0],furious_bar[1],furious_bar[2])
-    		
-    def f_health(self):
-        print "You have {0} health remaining".format(self.health)
+    def f_potion(self):
+        self.potion.play()
+    def f_attack1(self):
+        self.attack1.play()
+    def f_attack2(self):
+        self.attack2.play(0,1800)
+    def f_attack3(self):
+        self.attack3.play(1)
+    def f_death(self):
+        self.death.play()
     def f_level(self):
         self.miss = 240/(self.strength+self.dexterity)
         self.crit = (self.dexterity+self.intellect+self.wisdom+self.strength)/5
@@ -624,10 +660,13 @@ class cleric:
         self.miss = 200/(self.intellect + self.strength)
         self.crit = (self.wisdom + self.intellect+self.dexterity+self.strength)/5
         self.dict = ['cleanses','pierces','glances','devastates','hits','CRITS','misses']
-        self.target = 'unknown'
         self.abilities = ['Holy Blow']
-        self.xp = 0
         self.lvl = 1
+        self.attack1 = pygame.mixer.Sound('cleric_attack1.wav')
+        self.attack2 = pygame.mixer.Sound('cleric_attack2.wav')
+        self.attack3 = pygame.mixer.Sound('cleric_attack3.wav')
+        self.death = pygame.mixer.Sound('player_death.wav')
+        self.potion = pygame.mixer.Sound('potion.wav')
     def f_displayStats(self):
         print "Class: ", self.cls, "\nName: ", self.name,"\nLevel: ",self.lvl, "\nStamina: ", self.stamina, "\nWisdom: ", self.wisdom, "\nIntellect: ",self.intellect, "\nDexterity: ",self.dexterity, "\nStrength: ",self.strength, "\nMiss: ",self.miss,"\nCrit: ",self.crit
     def f_abilities(self):
@@ -718,9 +757,16 @@ class cleric:
     	drawText('Healed for '+heal,font,windowSurface,0,25,TEXTCOLOR)
     	drawText('Wisdom boosted by '+wis,font,windowSurface,0,50,TEXTCOLOR)
     	print "{0} damage dealt, healed for {1}, wisdom boosted by {2}.".format(damage, heal_amt, wisdom_gain)
-    	
-    def f_health(self):
-        print "You have {0} health remaining".format(self.health)
+    def f_potion(self):
+        self.potion.play()	
+    def f_attack1(self):
+        self.attack1.play()
+    def f_attack2(self):
+        self.attack2.play()
+    def f_attack3(self):
+        self.attack3.play()
+    def f_death(self):
+        self.death.play()
     def f_level(self):
         self.miss = 200/(self.intellect + self.strength)
         self.crit = (self.wisdom + self.intellect+self.dexterity+self.strength)/5

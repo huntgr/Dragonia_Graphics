@@ -30,8 +30,8 @@ class zombie:
         self.last = -1
         self.mod = 1
         self.dict = ['SMASHES','HITS','CRUSHES','OBLITERATES','SCRAPES','BARELY HITS','CRITS','misses']
-        self.target = 'unknown'
-        self.xp = 175
+        self.attack = pygame.mixer.Sound('zombie_eating.wav')
+        self.death = pygame.mixer.Sound('ogre_death.wav')
     def f_ability0(self):
         ability = random.randint(0,2)
         if ability == 0 or ability == 1:
@@ -64,7 +64,11 @@ class zombie:
             dam = str(self.damage)
             drawText('The Zombie hits you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
             print "The Zombie {0} for {1} damage".format(self.dict[random.randrange(0,6)],self.damage)
-
+    def f_attack(self):
+        self.attack.play()
+    def f_death(self):
+        self.death.play()
+        
 class gargantuan:
     def __init__(self):
         self.name = 'gargantuan'
@@ -75,8 +79,8 @@ class gargantuan:
         self.last = -1
         self.mod = 1
         self.dict = ['SMASHES','HITS','CRUSHES','OBLITERATES','SCRAPES','BARELY HITS','CRITS','misses']
-        self.target = 'unknown'
-        self.xp = 175
+        self.attack = pygame.mixer.Sound('gargantuan_attack.wav')
+        self.death = pygame.mixer.Sound('ogre_death.wav') 
     def f_ability0(self):
         ability = random.randint(0,2)
         if ability == 0 or ability == 1:
@@ -109,7 +113,10 @@ class gargantuan:
             dam = str(self.damage)
             drawText('The Gargantuan hits you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
             print "The Gargantuan {0} for {1} damage".format(self.dict[random.randrange(0,6)],self.damage)
-                
+    def f_attack(self):
+        self.attack.play()
+    def f_death(self):
+        self.death.play()    
 class cyclops:
     def __init__(self):
         self.name = 'cyclops'
@@ -120,8 +127,8 @@ class cyclops:
         self.last = -1
         self.mod = 1
         self.dict = ['SMASHES','HITS','CRUSHES','OBLITERATES','SCRAPES','BARELY HITS','CRITS','misses']
-        self.target = 'unknown'
-        self.xp = 175
+        self.attack = pygame.mixer.Sound('roar.wav')
+        self.death = pygame.mixer.Sound('ogre_death.wav')
     def f_ability0(self):
         ability = random.randint(0,2)
         if ability == 0 or ability == 1:
@@ -154,36 +161,10 @@ class cyclops:
                 dam = str(self.damage)
                 drawText('The cyclops hits you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
                 print "The cyclops {0} for {1} damage".format(self.dict[random.randrange(0,6)],self.damage)
-    def f_health(self):
-        print "The cyclops has {0} health remaining".format(self.health)
-    def f_display(self):
-        print """
-              You enter a room filled with a foul stench.
-              A cyclops smells your flesh...
-              'ME HUNGRY ME EAT YOU NOW'
-              Prepare yourself for a fight!"""
-        time.sleep(2)
-        print '''
-            _......._
-        .-'.'.'.'.'.'.`-.
-      .'.'.'.'.'.'.'.'.'.`.
-     /.'.'               '.\
-    
-     |     _..- .-. -.._   |
-  .-.'    `.   ((@))  .'   '.-.
- ( ^ \      `--.   .-'     / ^ )
-  \  /         .   .       \  /
-  /          .'     '.  .-    \
-
-  `-' \   ' .--.          / `-'
-      |  / /|_| `-._.'\   |
-      |   |       |_| |   /-.._
-  _..-\   `.--.______.'  |
-       \       .....     |
-        `.  .'      `.  /
-          \           .'
-           `-..___..-`
-                '''
+    def f_attack(self):
+        self.attack.play()
+    def f_death(self):
+        self.death.play()
         
 class ogre:
     def __init__(self):
@@ -195,8 +176,8 @@ class ogre:
         self.last = -1
         self.mod = 1
         self.dict = ['SMASHES','HITS','CRUSHES','OBLITERATES','SCRAPES','BARELY HITS','CRITS','misses']
-        self.target = 'unknown'
-        self.xp = 75
+        self.attack = pygame.mixer.Sound('punch.wav')
+        self.death = pygame.mixer.Sound('ogre_death.wav')
     def f_ability0(self):
         crit = random.randrange(1,10)
         miss = random.randrange(1,100)
@@ -240,32 +221,10 @@ class ogre:
                 dam = str(self.damage)
                 drawText('The ogre hits you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
                 print "The ogre {0} for {1} damage".format(self.dict[random.randrange(0,6)],self.damage)
-    def f_health(self):
-        print "The ogre has {0} health remaining".format(self.health)
-    def f_display(self):
-        print """
-              An ogre is sleeping in the next room.
-              He appears to be surrounded by bones from those
-              who have attempted to kill him before."""
-        time.sleep(2)
-        print '''
-                      |\  ,,,,,  /|
-                      | \/_   _\/ |
-               /\     (_    "    _)
-               \ \      (  ,--, )
-               / /    ,,,\__-__/,,,
-               \ \   ,,,,""""""",,,,  ,,,,
-               /_/   |  |"""""""(  ) ,(  )
-              [!!!]-'  / """"""" \  \ / /
-               |!|----' """"""""" `,___/
-                        ;;;;;;;;;
-                        """""""""
-                        """" """"
-                        """   """
-                       _"",   ,""_
-                      (___)   (___)
-
-                '''
+    def f_attack(self):
+        self.attack.play()
+    def f_death(self):
+        self.death.play()
         
 class gargoyle:
     def __init__(self):
@@ -277,8 +236,8 @@ class gargoyle:
         self.last = -1
         self.mod = 1
         self.dict = ['DECIMATES','HITS','CRUSHES','OBLITERATES','SCRAPES','BARELY HITS','CRITS','misses']
-        self.target = 'unknown'
-        self.xp = 150
+        self.attack = pygame.mixer.Sound('gargoyle_attack.wav')
+        self.death = pygame.mixer.Sound('ogre_death.wav')
     def f_ability0(self):
         crit = random.randrange(1,10)
         miss = random.randrange(1,100)
@@ -315,25 +274,10 @@ class gargoyle:
                 dam = str(self.damage)
                 drawText('The Gargoyle hits you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
                 print "The Gargoyle {0} for {1} damage".format(self.dict[random.randrange(0,6)],self.damage)
-    def f_health(self):
-        print "The Gargoyle has {0} health remaining".format(self.health)
-    def f_display(self):
-        print """
-              You enter the next room and a
-              Gargoyle guards a tomb.  I wonder whats inside?"""
-        time.sleep(2)
-        print """
-               /|    /(_)\    |\                
-             /' `\   \`,'/   /' `\              
-           /' / | `\_/\~/\_/' | \ `\          
-          O  |   \/'   V   `\/   |  O        
-         O   |,-,|   ,_;_,   |,-,|   O       
-        oO    \  \\ '\ I /` //  /    Oo     
-        oO     \ \`\  \ /  /'/ /     Oo     
-         O    /~\ \,\  |  /,/ /~\    O       
-    ______O  /__/ /__| I |__\ \__\  O____    
-    |      \|  '''  ''' ```  ```  |/     
-        """
+    def f_attack(self):
+        self.attack.play()
+    def f_death(self):
+        self.death.play()
 
 class dragon:
     def __init__(self):
@@ -345,8 +289,8 @@ class dragon:
         self.last = -1
         self.mod = 1
         self.dict = ['HITS','BITES','BURNS','DEVOURES','BREATHES FIRE','CRITS','MISSES']
-        self.target = 'unknown'
-        self.xp = 1000
+        self.attack = pygame.mixer.Sound('dragon.wav')
+        self.death = pygame.mixer.Sound('dragon_death.wav')
     def f_ability0(self):
         crit = random.randrange(1,10)
         miss = random.randrange(1,100)
@@ -387,53 +331,11 @@ class dragon:
                 dam = str(self.damage)
                 drawText('The Dragon hits you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
                 print "The Dragon {0} for {1} damage".format(self.dict[random.randrange(0,6)],self.damage)
-    def f_health(self):
-        print "The Dragon has {0} health remaining".format(self.health)
-    def f_display(self):
-        print """
-              You happen upon a dragon's lair.
-              The gold and spoils he is guarding are beyond
-              your wildest dreams.  If you can manage to defeat him..."""
-        time.sleep(2)
-        print """
-                                             ..
-                                     ,o""'o
-                                  ,o$"     o
-                               ,o$$$                                 
-                             ,o$$$'
-                           ,o$"o$'
-                         ,o$$"$"'   
-                      ,o$"$o"$"'    
-                   ,oo$"$"$"$"$$`                      ,oooo$$$$$$$$oooooo.  
-                ,o$$$"$"$"$"$"$"o$`..             ,$o$"$$"$"'            `oo.o
-             ,oo$$$o"$"$"$"$  $"$$$"$`o        ,o$$"o$$$o$'                 `o
-          ,o$"$"$o$"$"$"$  $"$$o$$o $$o`o   ,$$$$$o$"$$o'                    $
-        ,o"$$"'  `$"$o$" o$o$o"  $$$o$o$oo"$$$o$"$$"$o"'                     $
-     ,o$"'        `"$ "$$o$$" $"$o$o$$"$o$$o$o$o"$"$"`""o                   ' 
-   ,o$'          o$ `"$"$o "$o$$o$$$"$$$o"$o$$o"$$$    `$$  
-  ,o'           (     `" o$"$o"$o$$$"$o$"$"$o$"$$"$ooo|  `` 
- $"$             `    (   `"o$$"$o$o$$ "o$o"   $o$o"$"$    )
-(  `                   `    `o$"$$o$" "o$$     "o /|"$o"
- `                           `$o$$$$"" o$      "o$\|"$o'
-                              `$o"$"$ $ "       `"$"$o$
-                               "$$"$$ "oo         ,$""$ 
-                               $"$o$$""o"          ,o$"$
-                               $$"$$"$ "o           `,",
-                     ,oo$oo$$$$$$"$o$$$ ""o           
-                  ,o$$"o"o$o$$o$$$"$o$$oo"oo
-                ,$"oo"$$$$o$$$$"$$$o"o$o"o"$o o
-               ,$$$""$$o$,      `$$$$"$$$o""$o $o               
-               $o$o$"$,          `$o$"$o$o"$$o$ $$o             
-              $$$o"o$$           ,$$$$o$$o"$"$$ $o$$oo      ,   
-              "$o$$$ $`.        ,"$$o$"o$""$$$$ `"$o$$oo    `o
-              `$o$o$"$o$o`.  ,.$$"$o$$"$$"o$$$$   `$o$$ooo    $$ooooooo
-                `$o$"$o"$"$$"$$"$"$$o$$o"$$o"        `"$o$o            `"o
-                   `$$"$"$o$$o$"$$"$ $$$  $ "           `$"$o            `o
-                      `$$"o$o"$o"$o$ "  o $$$o            `$$"o          ,$
-                         (" ""$""'     o"" "o$o             `$$ooo     ,o$$
-                              $$'""o   (   "$o$$$"o            `$o$$$o$"$'
-                                ) ) )           )  ) )            ` "'
-        """
+    def f_attack(self):
+        self.attack.play()
+    def f_death(self):
+        self.death.play()
+        
 class giant_snake:
     def __init__(self):
         self.name = 'snake'
@@ -445,8 +347,8 @@ class giant_snake:
         self.counter = 0
         self.mod = 1
         self.dict = ['HITS','BITES','KNICKS','DEVOURES','POISONS','CRITS','MISSES']
-        self.target = 'unknown'
-        self.xp = 65
+        self.attack = pygame.mixer.Sound('snake_attack.wav')
+        self.death = pygame.mixer.Sound('dragon_death.wav')
     def f_ability0(self):
         crit = random.randrange(1,10)
         miss = random.randrange(1,100)
@@ -489,25 +391,7 @@ class giant_snake:
                 dam = str(self.damage)
                 drawText('The Giant Snake hits for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
                 print "The giant snake {0} for {1} damage".format(self.dict[random.randrange(0,6)],self.damage)
-    def f_health(self):
-        print "The giant snake has {0} health remaining".format(self.health)
-    def f_display(self):
-        print """
-              You enter the next room and startle
-              a Giant Snake.  He attacks!"""
-        time.sleep(1.5)
-        print '''
-           ---_ ...... _/_ -    
-          /  .      ./ .'*\ \    
-          : '         /__-'   \. 
-         /                      )
-       _/                  >   .' 
-     /   .   .       _.-" /  .'   
-     \           __/"     /.'/|   
-       \ '--  .-" /     //' |\|  
-        \|  \ | /     //_ _ |/|
-         `.  \:     //|_ _ _|\|
-         | \/.    //  | _ _ |/| 
-          \_ | \/ /    \ _ _ \\\ 
-              \__/      \ _ _ \|\
-        '''
+    def f_attack(self):
+        self.attack.play()
+    def f_death(self):
+        self.death.play()

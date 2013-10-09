@@ -115,6 +115,8 @@ def damage(enemy,player,alive):
     if player.cls == 'mage' or player.cls == 'warlock' or player.cls == 'cleric':
         player.health -= enemy.damage
     if enemy.health <= 0 and player.health > 0:
+         LowHPSound.stop()
+         enemy.f_death()
          player.health = player.health + enemy.stamina*2
          if player.health > (player.stamina*10):
              player.health = player.stamina*10
@@ -214,8 +216,6 @@ def alt_mage():
 def mage_with_minion(fireball,place,enemy_place,plyr,enemy,player,en_attack,min_attack):
     enemy = enemy_place
     minion = mage_minion()
-    if room == True:
-        laugh.play(0,900)
     min_attack = True
     for i in range(16):
         mage_battle(place,enemy_place,plyr,enemy,player,en_attack,min_attack)
@@ -225,10 +225,6 @@ def mage_with_minion(fireball,place,enemy_place,plyr,enemy,player,en_attack,min_
     mainClock.tick(FPS_COM)
     min_attack = False
     if fireball != []:
-        if room == True:
-            laugh.play(0,900)
-        else:
-            FireballSound.play(0,500)
         for i in range(16):
             fireball[1].topleft = (220+(i*17),290)
             mage_battle(place,enemy_place,plyr,enemy,player,en_attack,min_attack)
@@ -238,11 +234,6 @@ def mage_with_minion(fireball,place,enemy_place,plyr,enemy,player,en_attack,min_
     
 def abilityone(ability1,place,enemy_place,plyr,enemy,player,en_attack,min_attack):
     enemy = enemy_place
-    if room == True:
-        laugh.play(0,900)
-    if player[2].cls == 'mage':
-        if room != True:
-            FireballSound.play(0,900)
     for i in range(16):
         if player[2].cls == 'mage':
             mage_battle(place,enemy_place,plyr,enemy,player,en_attack,min_attack)
@@ -262,11 +253,6 @@ def abilityone(ability1,place,enemy_place,plyr,enemy,player,en_attack,min_attack
   
 def default_attack(place,enemy_place,plyr,player,en_attack,min_attack):
     enemy = enemy_place
-    if room == True:
-        laugh.play(0,900)
-    if player[2].cls == 'swashbuckler':
-        if room != True:
-            SwordSound.play(0,700)
     for i in range(16):
         plyr[1].topleft = (200+(i*17),400)
         if player[2].cls == 'mage':
@@ -288,14 +274,7 @@ def enemy_attack(place,enemy_place,plyr,player,en_attack,min_attack):
     enemy = enemy_place
     en_attack = True
     min_attack = False
-    if enemy[2].name == 'zombie':
-        ZombieBSound.play(0,900)
-    elif enemy[2].name == 'dragon':
-        DragonSound.play(0,900)
-    elif enemy[2].name == 'gargantuan':
-        RoarSound.play(0,900)
-    else:
-        PunchSound.play(0,900)
+    enemy[2].f_attack()
     for i in range(16):
         enemy[1].topleft = (500-(i*17),200)
         if player[2].cls == 'mage':
@@ -454,6 +433,10 @@ def battle(place,player,enemy):
                 if event.key == K_ESCAPE:
                     terminate()   
                 if event.key == ord('1'):
+                    if room == True:
+                        laugh.play()
+                    else:
+                        player[2].f_attack1()
                     if player[2].cls == 'mage':
                         fireball = mage_fireball()
                         if player[2].minion > 0:
@@ -478,6 +461,10 @@ def battle(place,player,enemy):
                     time.sleep(1)
 
                 if event.key == ord('2'):
+                    if room == True:
+                        laugh.play()
+                    else:
+                        player[2].f_attack2()
                     if player[2].cls == 'mage':
                         player[2].f_ability1()
                         fireball = []
@@ -538,8 +525,10 @@ def battle(place,player,enemy):
                         time.sleep(1)
                         
                 if event.key == ord('3'):
-                    if player[2].cls == 'warlock':
-                        WarlockSound.play()
+                    if room == True:
+                        laugh.play()
+                    else:
+                        player[2].f_attack3()
                     if player[2].cls == 'warrior':
                         default_attack(place,enemy_place,plyr,player,en_attack,min_attack)
                     if player[2].cls == 'mage':
@@ -557,6 +546,7 @@ def battle(place,player,enemy):
                 
                 if event.key == ord('q'):
                     if player[2].health_pot >= 1:
+                        player[2].f_potion()
                         player[2].health_pot -= 1
                         player[2].health = player[2].stamina*10
                         drawText('You healed to full!', font, windowSurface, 0, 0,(255,255,255))
@@ -1084,19 +1074,10 @@ pygame.display.set_icon(pygame.image.load('dragonia!.png'))
 font = pygame.font.SysFont('centaur', 30)
 
 # set up sounds
-gameOverSound = pygame.mixer.Sound('gameover.wav')
-FireballSound = pygame.mixer.Sound('fireball.wav')
 DeathSound = pygame.mixer.Sound('death.wav')
-PunchSound = pygame.mixer.Sound('punch.wav')
-LaserSound = pygame.mixer.Sound('laser.wav')
-ZombieASound = pygame.mixer.Sound('zombie_attack.wav')
-ZombieBSound = pygame.mixer.Sound('zombie_eating.wav')
 laugh = pygame.mixer.Sound('laugh.wav')
-RoarSound = pygame.mixer.Sound('roar.wav')
-WarlockSound = pygame.mixer.Sound('warlock_shield.wav')
-DragonSound = pygame.mixer.Sound('dragon.wav')
-SwordSound = pygame.mixer.Sound('sword.wav')
 LowHPSound = pygame.mixer.Sound('low_hp.wav')
+
 
 #enemy locations
 locations = [(120,20),(240,20),(360,20),(480,20),(600,20),(720,20),(0,130),(120,130),(240,130),(360,130),(480,130),(600,130),(720,130),(0,260),(120,260),(240,260),(360,260),(480,260),(600,260),(720,260),(0,390),(120,390),(240,390),(360,390),(480,390),(600,390),(720,390)]
