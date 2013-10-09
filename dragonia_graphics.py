@@ -222,7 +222,7 @@ def mage_with_minion(fireball,place,enemy_place,plyr,enemy,player,en_attack,min_
         minion[1].topleft = (220+(i*17),290)
         windowSurface.blit(minion[0], minion[1])
         pygame.display.update()
-        mainClock.tick(FPS_COM)
+    mainClock.tick(FPS_COM)
     min_attack = False
     if fireball != []:
         if room == True:
@@ -234,7 +234,7 @@ def mage_with_minion(fireball,place,enemy_place,plyr,enemy,player,en_attack,min_
             mage_battle(place,enemy_place,plyr,enemy,player,en_attack,min_attack)
             windowSurface.blit(fireball[0], fireball[1])
             pygame.display.update()
-            mainClock.tick(FPS_COM)
+        mainClock.tick(FPS_COM)
     
 def abilityone(ability1,place,enemy_place,plyr,enemy,player,en_attack,min_attack):
     enemy = enemy_place
@@ -257,7 +257,8 @@ def abilityone(ability1,place,enemy_place,plyr,enemy,player,en_attack,min_attack
             ability1[1].topleft = (220+(i*17),400)
             windowSurface.blit(ability1[0], ability1[1])
         pygame.display.update()
-        mainClock.tick(FPS_COM)
+    #time.sleep(0.5)
+    mainClock.tick(FPS_COM)
   
 def default_attack(place,enemy_place,plyr,player,en_attack,min_attack):
     enemy = enemy_place
@@ -265,7 +266,7 @@ def default_attack(place,enemy_place,plyr,player,en_attack,min_attack):
         laugh.play(0,900)
     if player[2].cls == 'swashbuckler':
         if room != True:
-            SwordSound.play(0,900)
+            SwordSound.play(0,700)
     for i in range(16):
         plyr[1].topleft = (200+(i*17),400)
         if player[2].cls == 'mage':
@@ -279,7 +280,8 @@ def default_attack(place,enemy_place,plyr,player,en_attack,min_attack):
         elif player[2].cls == 'swashbuckler':
             swashbuckler_battle(place,enemy_place,plyr,enemy,player,en_attack)
         pygame.display.update()
-        mainClock.tick(FPS_COM)
+    mainClock.tick(FPS_COM)
+    #time.sleep(0.5)
     plyr[1].topleft = (200,400)
     
 def enemy_attack(place,enemy_place,plyr,player,en_attack,min_attack):
@@ -287,7 +289,9 @@ def enemy_attack(place,enemy_place,plyr,player,en_attack,min_attack):
     en_attack = True
     min_attack = False
     if enemy[2].name == 'zombie':
-            ZombieBSound.play(0,500)
+        ZombieBSound.play(0,900)
+    else:
+        PunchSound.play(0,900)
     for i in range(16):
         enemy[1].topleft = (500-(i*17),200)
         if player[2].cls == 'mage':
@@ -303,8 +307,9 @@ def enemy_attack(place,enemy_place,plyr,player,en_attack,min_attack):
         #enemy[1].topleft = (500-(i*5),200)
         #windowSurface.blit(enemy[0],enemy[1])    
         pygame.display.update()
-        mainClock.tick(FPS_COM)
+    mainClock.tick(FPS_COM)
     enemy[1].topleft = (500,200)
+    #time.sleep(0.5)
     en_attack = False
     
 def terminate():
@@ -460,6 +465,7 @@ def battle(place,player,enemy):
                         default_attack(place,enemy_place,plyr,player,en_attack,min_attack)
                     if player[2].cls == 'swashbuckler':
                         default_attack(place,enemy_place,plyr,player,en_attack,min_attack)
+                    time.sleep(0.5)
                     enemy_attack(place,enemy_place,plyr,player,en_attack,min_attack)        
                     player[2].f_ability0()
                     enemy[2].f_ability0()
@@ -473,6 +479,7 @@ def battle(place,player,enemy):
                         fireball = []
                         if player[2].minion > 0:
                             mage_with_minion(fireball,place,enemy_place,plyr,enemy,player,en_attack,min_attack)
+                        time.sleep(0.5)
                         enemy_attack(place,enemy_place,plyr,player,en_attack,min_attack)        
                         enemy[2].f_ability0()
                         alive = damage(enemy[2],player[2],alive)
@@ -486,6 +493,7 @@ def battle(place,player,enemy):
                         else:
                             player[2].empowered = 1
                             flag = False
+                        time.sleep(0.5)
                         enemy_attack(place,enemy_place,plyr,player,en_attack,min_attack)
                         if flag != True:
                             player[2].empowered = 0
@@ -498,6 +506,7 @@ def battle(place,player,enemy):
                         tact = warrior_tactics()
                         tact[1].topleft = (150,350)
                         player[2].tactics = 1
+                        time.sleep(0.5)
                         enemy_attack(place,enemy_place,plyr,player,en_attack,min_attack)        
                         player[2].f_ability1()
                         enemy[2].f_ability0()
@@ -507,6 +516,7 @@ def battle(place,player,enemy):
                     if player[2].cls == 'warlock':
                         ent = warlock_entropic()
                         abilityone(ent,place,enemy_place,plyr,enemy,player,en_attack,min_attack)
+                        time.sleep(0.5)
                         enemy_attack(place,enemy_place,plyr,player,en_attack,min_attack)        
                         player[2].f_ability1()
                         enemy[2].f_ability0()
@@ -515,6 +525,7 @@ def battle(place,player,enemy):
                         time.sleep(1)
                     if player[2].cls == 'swashbuckler':
                         default_attack(place,enemy_place,plyr,player,en_attack,min_attack)
+                        time.sleep(0.5)
                         enemy_attack(place,enemy_place,plyr,player,en_attack,min_attack)        
                         player[2].f_ability1()
                         enemy[2].f_ability0()
@@ -530,6 +541,7 @@ def battle(place,player,enemy):
                         mage_with_minion(fireball,place,enemy_place,plyr,enemy,player,en_attack,min_attack)
                     if player[2].cls == 'swashbuckler':
                         default_attack(place,enemy_place,plyr,player,en_attack,min_attack)
+                    time.sleep(0.5)
                     enemy_attack(place,enemy_place,plyr,player,en_attack,min_attack)
                     player[2].f_ability2()
                     enemy[2].f_ability0()
