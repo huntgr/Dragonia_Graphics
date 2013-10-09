@@ -1285,6 +1285,7 @@ while True:
                 if the_enemies == []:
                     you_win = True
                     break
+            LowHPSound.stop()
             draw_enemies(the_enemies)
             if drop != False:
                 windowSurface.blit(the_drop[0],the_drop[1])
@@ -1311,6 +1312,7 @@ while True:
     else:
         pygame.mixer.music.stop()
         #gameOverSound.play()
+        LowHPSound.stop()
         DeathSound.play()
         windowSurface.fill((255,0,0))
         gover = gameover()
@@ -1318,7 +1320,7 @@ while True:
         drawText('GAME OVER', font, windowSurface, 0, 0,(0,0,0))
         drawText('Press ENTER to start a new game.', font, windowSurface, 0, 30,(0,0,0))
         pygame.display.update()
-        WaitForPlayerToPressKey(False)
+        waitForPlayerToPressKey(False)
         #gameOverSound.stop()
         DeathSound.stop()
     
