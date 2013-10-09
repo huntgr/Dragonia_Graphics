@@ -10,6 +10,7 @@ BACKGROUNDCOLOR = (0,0,0)
 FPS_COM = 50
 FPS = 60
 PLAYERMOVERATE = 5
+room = False
 
 def mouse_test():
     pygame.event.set_grab(True)
@@ -213,6 +214,8 @@ def alt_mage():
 def mage_with_minion(fireball,place,enemy_place,plyr,enemy,player,en_attack,min_attack):
     enemy = enemy_place
     minion = mage_minion()
+    if room == True:
+        laugh.play(0,900)
     min_attack = True
     for i in range(16):
         mage_battle(place,enemy_place,plyr,enemy,player,en_attack,min_attack)
@@ -222,6 +225,10 @@ def mage_with_minion(fireball,place,enemy_place,plyr,enemy,player,en_attack,min_
         mainClock.tick(FPS_COM)
     min_attack = False
     if fireball != []:
+        if room == True:
+            laugh.play(0,900)
+        else:
+            FireballSound.play(0,500)
         for i in range(16):
             fireball[1].topleft = (220+(i*17),290)
             mage_battle(place,enemy_place,plyr,enemy,player,en_attack,min_attack)
@@ -231,8 +238,12 @@ def mage_with_minion(fireball,place,enemy_place,plyr,enemy,player,en_attack,min_
     
 def abilityone(ability1,place,enemy_place,plyr,enemy,player,en_attack,min_attack):
     enemy = enemy_place
+    if room == True:
+        laugh.play(0,900)
     for i in range(16):
         if player[2].cls == 'mage':
+            if room != True:
+                FireballSound.play(0,500)
             mage_battle(place,enemy_place,plyr,enemy,player,en_attack,min_attack)
             ability1[1].topleft = (220+(i*17),290)
             windowSurface.blit(ability1[0], ability1[1])
@@ -249,6 +260,8 @@ def abilityone(ability1,place,enemy_place,plyr,enemy,player,en_attack,min_attack
   
 def default_attack(place,enemy_place,plyr,player,en_attack,min_attack):
     enemy = enemy_place
+    if room == True:
+        laugh.play(0,900)
     for i in range(16):
         plyr[1].topleft = (200+(i*17),400)
         if player[2].cls == 'mage':
@@ -269,6 +282,8 @@ def enemy_attack(place,enemy_place,plyr,player,en_attack,min_attack):
     enemy = enemy_place
     en_attack = True
     min_attack = False
+    if enemy[2].name == 'zombie':
+            ZombieBSound.play(0,500)
     for i in range(16):
         enemy[1].topleft = (500-(i*17),200)
         if player[2].cls == 'mage':
@@ -292,7 +307,7 @@ def terminate():
     pygame.quit()
     sys.exit()
 
-def waitForPlayerToPressKey():
+def waitForPlayerToPressKey(thing):
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -301,7 +316,10 @@ def waitForPlayerToPressKey():
                 if event.key == K_ESCAPE: # pressing escape quits
                     terminate()
                 elif event.key == K_RETURN:
-                    return
+                    return False
+            if thing == True:
+                if event.key == ord('r'):
+                    return True
 
 def playerHasHitEnemy(playerRect, the_enemies):
     i = 0
@@ -524,7 +542,10 @@ def battle(place,player,enemy):
                         drawText('You have no potions left.',font,windowSurface,0,0,(255,255,255))
                     pygame.display.update()
                     time.sleep(1)
-                    
+        if player[2].health < 30:
+            LowHPSound.play(-1)
+        else:
+            LowHPSound.stop()
         if player[2].cls == 'mage':
             mage_battle(place,enemy_place,plyr,enemy,player,en_attack,min_attack)
         elif player[2].cls == 'warrior':
@@ -678,7 +699,9 @@ def class_abilities(player):
     player[2].f_abilities()
     drawText('Press ENTER to begin.', font, windowSurface, 100, 0,(255,255,255))
     pygame.display.update()
-    waitForPlayerToPressKey()
+    class_screen = True
+    room = waitForPlayerToPressKey(class_screen)
+    return room
     
 def place():
     places = ['cave_dragonia.png','desert_dragonia.png','water.png','sun.png']
@@ -1040,6 +1063,14 @@ font = pygame.font.SysFont('centaur', 30)
 
 # set up sounds
 gameOverSound = pygame.mixer.Sound('gameover.wav')
+FireballSound = pygame.mixer.Sound('fireball.wav')
+DeathSound = pygame.mixer.Sound('death.wav')
+PunchSound = pygame.mixer.Sound('punch.wav')
+LaserSound = pygame.mixer.Sound('laser.wav')
+ZombieASound = pygame.mixer.Sound('zombie_attack.wav')
+ZombieBSound = pygame.mixer.Sound('zombie_eating.wav')
+laugh = pygame.mixer.Sound('laugh.wav')
+LowHPSound = pygame.mixer.Sound('low_hp.wav')
 pygame.mixer.music.load('background_.ogg')
 
 #enemy locations
@@ -1066,7 +1097,11 @@ while True:
     player = pick_hero(heroes)
     player[1].topleft = (0,20)
     difficulty = choose_difficulty()
-    class_abilities(player)
+    room = class_abilities(player)
+    if room == True:
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load('room_music.wav')
+        pygame.mixer.music.play(-1, 0.0)
     the_enemies = all_enemies(enemies,locations,difficulty)
     you_win = False
     leveled = False
@@ -1158,70 +1193,70 @@ while True:
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
-                    waitForPlayerToPressKey()
+                    waitForPlayerToPressKey(False)
                     player[2].f_sword()
                 if the_drop[3] == 'belt':
                     drawText('You found a Belt!',font,windowSurface,0,0,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
-                    waitForPlayerToPressKey()
+                    waitForPlayerToPressKey(False)
                     player[2].f_belt()
                 if the_drop[3] == 'cloak':
                     drawText('You found a Cloak!',font,windowSurface,0,0,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
-                    waitForPlayerToPressKey()
+                    waitForPlayerToPressKey(False)
                     player[2].f_cloak()
                 if the_drop[3] == 'eye':
                     drawText('You found the Cyclops\' eye!',font,windowSurface,0,0,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
-                    waitForPlayerToPressKey()
+                    waitForPlayerToPressKey(False)
                     player[2].f_eye()
                 if the_drop[3] == 'legendary':
                     drawText('You found a LEGENDARY weapon.',font,windowSurface,0,0,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
-                    waitForPlayerToPressKey()
+                    waitForPlayerToPressKey(False)
                     player[2].f_legendary_weapon()
                 if the_drop[3] == 'trinket':
                     drawText('You found a SHINY Ring.',font,windowSurface,0,0,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
-                    waitForPlayerToPressKey()
+                    waitForPlayerToPressKey(False)
                     player[2].f_trinket()
                 if the_drop[3] == 'air':
                     drawText('You found an Air Essence.',font,windowSurface,0,0,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
-                    waitForPlayerToPressKey()
+                    waitForPlayerToPressKey(False)
                     player[2].f_air()
                 if the_drop[3] == 'earth':
                     drawText('You found an Earth Essence.',font,windowSurface,0,0,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
-                    waitForPlayerToPressKey()
+                    waitForPlayerToPressKey(False)
                     player[2].f_earth()
                 if the_drop[3] == 'fire':
                     drawText('You found a Fire Essence.',font,windowSurface,0,0,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
-                    waitForPlayerToPressKey()
+                    waitForPlayerToPressKey(False)
                     player[2].f_fire()
                 if the_drop[3] == 'water':
                     drawText('You found a Water Essence.',font,windowSurface,0,0,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
-                    waitForPlayerToPressKey()
+                    waitForPlayerToPressKey(False)
                     player[2].f_water()
         player_health(player[2].health,player,player[2].shield)
         pygame.display.update()
@@ -1272,18 +1307,20 @@ while True:
         drawText('You have slain all the enemies!', font, windowSurface, 0, 0,(255,255,255))
         drawText('Press ENTER to start a new game', font, windowSurface, 0, 30,(255,255,255))
         pygame.display.update()
-        waitForPlayerToPressKey()
+        waitForPlayerToPressKey(False)
     else:
         pygame.mixer.music.stop()
-        gameOverSound.play()
+        #gameOverSound.play()
+        DeathSound.play()
         windowSurface.fill((255,0,0))
         gover = gameover()
         windowSurface.blit(gover[0],gover[1])
         drawText('GAME OVER', font, windowSurface, 0, 0,(0,0,0))
         drawText('Press ENTER to start a new game.', font, windowSurface, 0, 30,(0,0,0))
         pygame.display.update()
-        waitForPlayerToPressKey()
-        gameOverSound.stop()
+        WaitForPlayerToPressKey(False)
+        #gameOverSound.stop()
+        DeathSound.stop()
     
 
 

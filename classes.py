@@ -407,8 +407,8 @@ class mage:
      
     def f_ability2(self):
     	self.minion = 4
-    	self.damage = 0
     	self.f_minion()
+    	self.damage = self.min_damage
     	
     def f_minion(self):
     	minion_damage = (self.intellect + self.wisdom)/2
