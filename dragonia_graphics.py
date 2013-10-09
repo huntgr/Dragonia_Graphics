@@ -290,6 +290,10 @@ def enemy_attack(place,enemy_place,plyr,player,en_attack,min_attack):
     min_attack = False
     if enemy[2].name == 'zombie':
         ZombieBSound.play(0,900)
+    elif enemy[2].name == 'dragon':
+        DragonSound.play(0,900)
+    elif enemy[2].name == 'gargantuan':
+        RoarSound.play(0,900)
     else:
         PunchSound.play(0,900)
     for i in range(16):
@@ -534,6 +538,8 @@ def battle(place,player,enemy):
                         time.sleep(1)
                         
                 if event.key == ord('3'):
+                    if player[2].cls == 'warlock':
+                        WarlockSound.play()
                     if player[2].cls == 'warrior':
                         default_attack(place,enemy_place,plyr,player,en_attack,min_attack)
                     if player[2].cls == 'mage':
@@ -1086,6 +1092,9 @@ LaserSound = pygame.mixer.Sound('laser.wav')
 ZombieASound = pygame.mixer.Sound('zombie_attack.wav')
 ZombieBSound = pygame.mixer.Sound('zombie_eating.wav')
 laugh = pygame.mixer.Sound('laugh.wav')
+RoarSound = pygame.mixer.Sound('roar.wav')
+WarlockSound = pygame.mixer.Sound('warlock_shield.wav')
+DragonSound = pygame.mixer.Sound('dragon.wav')
 SwordSound = pygame.mixer.Sound('sword.wav')
 LowHPSound = pygame.mixer.Sound('low_hp.wav')
 
