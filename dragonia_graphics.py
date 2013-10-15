@@ -54,7 +54,6 @@ def level_up(player):
          pygame.display.update()
          pressed = pygame.mouse.get_pressed()
          if pressed[0] == True:
-             time.sleep(0.1)
              pos = mouse_test()
              if plus[0][1].collidepoint(pos):
                  stats -= 1
@@ -73,6 +72,7 @@ def level_up(player):
                  player[2].strength += 1
              windowSurface.fill((0,0,0))
              j = 0
+             time.sleep(0.1)
              while j != 5:
                 windowSurface.blit(plus[j][0],plus[j][1])
                 j += 1
@@ -502,15 +502,40 @@ def shop(player):
                     player[2].coins -= 20
                     player[2].stam_pot = 3
                     player[2].stamina += 30
+                    player[2].health += 300
                 else:
                     fnt = pygame.font.SysFont('centaur', 22)
                     drawText("You don't have enough coins.",fnt,windowSurface,pos[0]-50,pos[1]-100,TEXTCOLOR)
             if exit_sn[1].collidepoint(pos):
                 break
+            time.sleep(0.1)
         pygame.display.update()
     pygame.event.set_grab(False)
     #time.sleep(5)
-    
+
+def pot_check(player):
+    if player[2].str_pot > 0:
+        player[2].str_pot -= 1
+    if player[2].dex_pot > 0:
+        player[2].dex_pot -= 1
+    if player[2].int_pot > 0:
+        player[2].int_pot -= 1
+    if player[2].stam_pot > 0:
+        player[2].stam_pot -= 1
+        
+    if player[2].str_pot == 0:
+        player[2].strength -= 30
+        player[2].str_pot = -1
+    if player[2].dex_pot == 0:
+        player[2].dexterity -= 30
+        player[2].dex_pot -= 1
+    if player[2].int_pot == 0:
+        player[2].intellect -= 30
+        player[2].int_pot -= 1
+    if player[2].stam_pot == 0:
+        player[2].stamina -= 30
+        player[2].stam_pot -= 1
+        
 def battle(place,player,enemy):
     alive = [True,True,True]
     if player[2].cls == 'mage':
@@ -919,10 +944,15 @@ def loot(enemy):
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'fire']
             dropped = True
-        elif rand >= 86 and rand <= 100:
+        elif rand >= 86 and rand <= 89:
             lootImage = pygame.image.load('water_essence.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'water']
+            dropped = True
+        elif rand >= 90 and rand <= 100:
+            coinImg = pygame.image.load('coin.png')
+            coinRect = coinImg.get_rect()
+            data = [coinImg,coinRect,True,'coin']
             dropped = True
         else:
             dropped = False
@@ -962,10 +992,15 @@ def loot(enemy):
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'earth']
             dropped = True
-        elif rand >= 82 and rand <= 100:
+        elif rand >= 82 and rand <= 89:
             lootImage = pygame.image.load('water_essence.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'water']
+            dropped = True
+        elif rand >= 90 and rand <= 100:
+            coinImg = pygame.image.load('coin.png')
+            coinRect = coinImg.get_rect()
+            data = [coinImg,coinRect,True,'coin']
             dropped = True
         else:
             dropped = False
@@ -1005,15 +1040,20 @@ def loot(enemy):
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'fire']
             dropped = True
-        elif rand >= 84 and rand < 92:
+        elif rand >= 84 and rand < 86:
             lootImage = pygame.image.load('water_essence.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'water']
             dropped = True
-        elif rand >= 92 and rand <= 100:
+        elif rand >= 87 and rand <= 89:
             lootImage = pygame.image.load('earth_essence.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'earth']
+            dropped = True
+        elif rand >= 90 and rand <= 100:
+            coinImg = pygame.image.load('coin.png')
+            coinRect = coinImg.get_rect()
+            data = [coinImg,coinRect,True,'coin']
             dropped = True
         else:
             dropped = False
@@ -1053,10 +1093,15 @@ def loot(enemy):
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'fire']
             dropped = True
-        elif rand >= 85 and rand <= 100:
+        elif rand >= 85 and rand <= 89:
             lootImage = pygame.image.load('earth_essence.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'earth']
+            dropped = True
+        elif rand >= 90 and rand <= 100:
+            coinImg = pygame.image.load('coin.png')
+            coinRect = coinImg.get_rect()
+            data = [coinImg,coinRect,True,'coin']
             dropped = True
         else:
             dropped = False
@@ -1096,15 +1141,20 @@ def loot(enemy):
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'fire']
             dropped = True
-        elif rand >= 83 and rand < 92:
+        elif rand >= 83 and rand < 87:
             lootImage = pygame.image.load('earth_essence.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'earth']
             dropped = True
-        elif rand >= 92 and rand <= 100:
+        elif rand >= 87 and rand <= 89:
             lootImage = pygame.image.load('air_essence.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'air']
+            dropped = True
+        elif rand >= 90 and rand <= 100:
+            coinImg = pygame.image.load('coin.png')
+            coinRect = coinImg.get_rect()
+            data = [coinImg,coinRect,True,'coin']
             dropped = True
         else:
             dropped = False
@@ -1149,15 +1199,20 @@ def loot(enemy):
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'fire']
             dropped = True
-        elif rand >= 83 and rand < 92:
+        elif rand >= 83 and rand < 87:
             lootImage = pygame.image.load('earth_essence.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'earth']
             dropped = True
-        elif rand >= 92 and rand <= 100:
+        elif rand >= 87 and rand <= 89:
             lootImage = pygame.image.load('air_essence.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'air']
+            dropped = True
+        elif rand >= 90 and rand <= 100:
+            coinImg = pygame.image.load('coin.png')
+            coinRect = coinImg.get_rect()
+            data = [coinImg,coinRect,True,'coin']
             dropped = True
         else:
             dropped = False
@@ -1197,10 +1252,15 @@ def loot(enemy):
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'fire']
             dropped = True
-        elif rand >= 85 and rand <= 100:
+        elif rand >= 85 and rand <= 89:
             lootImage = pygame.image.load('earth_essence.png')
             lootRect = lootImage.get_rect()
             data = [lootImage,lootRect,True,'earth']
+            dropped = True
+        elif rand >= 90 and rand <= 100:
+            coinImg = pygame.image.load('coin.png')
+            coinRect = coinImg.get_rect()
+            data = [coinImg,coinRect,True,'coin']
             dropped = True
         else:
             dropped = False
@@ -1419,6 +1479,13 @@ while True:
             picked_up_loot = player[1].colliderect(the_drop[1])
             if picked_up_loot:
                 drop = False
+                if the_drop[3] == 'coin':
+                    drawText('You found a Coin!',font,windowSurface,300,250,(0,0,0))
+                    drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
+                    pygame.display.update()
+                    moveLeft = moveRight = moveUp = moveDown = False
+                    waitForPlayerToPressKey(False)
+                    player[2].coins += random.randint(1,8) 
                 if the_drop[3] == 'sword':
                     drawText('You found a Sword!',font,windowSurface,300,250,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
@@ -1505,6 +1572,7 @@ while True:
                 #print the_enemies
                 #print current_enemy
                 #print the_enemies[current_enemy]
+                pot_check(player)
                 the_drop = loot(the_map_enemies[cur_map[1]][current_enemy])
                 if the_drop[2] == True:
                     drop = True
