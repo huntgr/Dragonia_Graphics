@@ -153,6 +153,24 @@ def gameover():
     data = [gameoverImage, gameoverRect]
     return data
 
+def coin():
+    coinImg = pygame.image.load('coin.png')
+    coinRect = coinImg.get_rect()
+    data = [coinImg,coinRect]
+    return data
+
+def exit_sign():
+    img = pygame.image.load('exit.png')
+    rct = img.get_rect()
+    data = [img,rct]
+    return data
+
+def shop_pic():
+    img = pygame.image.load('shop.png')
+    rct = img.get_rect()
+    data = [img,rct]
+    return data
+    
 def cleric_empowerment():
     empImage = pygame.image.load('cleric_empowerment_dragonia.png')
     empRect = empImage.get_rect()
@@ -195,16 +213,16 @@ def mage_fireball():
     data = [fireballImage,fireballRect]
     return data
 
-def dragonia():
-    dragonImage = pygame.image.load('dragonia.png')
-    dragonRect = dragonImage.get_rect()
-    data = [dragonImage,dragonRect]
-    return data
-
 def mage_minion():
     minImage = pygame.image.load('mage_minion_dragonia.png')
     minRect = minImage.get_rect()
     data = [minImage,minRect]
+    return data
+
+def dragonia():
+    dragImage = pygame.image.load('dragonia.png')
+    dragRect = dragImage.get_rect()
+    data = [dragImage,dragRect]
     return data
 
 def alt_mage():
@@ -391,6 +409,107 @@ def swashbuckler_battle(place,enemy_place,plyr,enemy,player,en_attack):
     enemy_health(enemy[2].health,enemy_place)
     player_health(player[2].health,plyr,player[2].shield)
     pygame.display.update()
+
+def potions():
+    potions = []
+    pots = ['health_pot.png','strength_pot.png','dex_pot.png','int_pot.png','stam_pot.png']
+    for x in range(5):
+        img = pygame.image.load(pots[x])
+        rect = img.get_rect()
+        data = [img,rect]
+        potions.append(data)
+    return potions
+
+def shop(player):
+    exit_sn = exit_sign()
+    exit_sn[1].topleft = (0,430)
+    player[1].topleft = (0,30)
+    windowSurface.fill(BACKGROUNDCOLOR)
+    windowSurface.blit(player[0],player[1])
+    player_health(player[2].health,player,player[2].shield)
+    windowSurface.blit(exit_sn[0],exit_sn[1])
+    pots = potions()
+    for i in range(5):
+        pots[i][1].topleft = (200+(i*100),150)
+        windowSurface.blit(pots[i][0],pots[i][1])
+    pygame.display.update()
+    while True:
+        windowSurface.fill(BACKGROUNDCOLOR)
+        windowSurface.blit(player[0],player[1])
+        player_health(player[2].health,player,player[2].shield)
+        windowSurface.blit(exit_sn[0],exit_sn[1])
+        for i in range(5):
+            pots[i][1].topleft = (200+(i*100),150)
+            windowSurface.blit(pots[i][0],pots[i][1])
+        for event in pygame.event.get():
+                if event.type == QUIT:
+                    terminate()
+                if event.type == KEYUP:
+                    if event.key == K_ESCAPE:
+                        terminate()
+        pressed = pygame.mouse.get_pressed()
+        pos = mouse_test()
+        if pots[0][1].collidepoint(pos):
+            fnt = pygame.font.SysFont('centaur', 22)
+            drawText('Heals your character 50%.',fnt,windowSurface,pos[0]-50,pos[1],TEXTCOLOR)
+        elif pots[1][1].collidepoint(pos):
+            fnt = pygame.font.SysFont('centaur', 22)
+            drawText('Gives your character 30 strength for 3 battles.',fnt,windowSurface,pos[0]-50,pos[1],TEXTCOLOR)
+        elif pots[2][1].collidepoint(pos):
+            fnt = pygame.font.SysFont('centaur', 22)
+            drawText('Gives your character 30 dexterity for 3 battles.',fnt,windowSurface,pos[0]-50,pos[1],TEXTCOLOR)
+        elif pots[3][1].collidepoint(pos):
+            fnt = pygame.font.SysFont('centaur', 22)
+            drawText('Gives your character 30 intellect for 3 battles.',fnt,windowSurface,pos[0]-50,pos[1],TEXTCOLOR)
+        elif pots[4][1].collidepoint(pos):
+            fnt = pygame.font.SysFont('centaur', 22)
+            drawText('Gives your character 30 stamina for 3 battles.',fnt,windowSurface,pos[0]-50,pos[1],TEXTCOLOR)
+        if pressed[0] == True:
+            pos = mouse_test()
+            if pots[0][1].collidepoint(pos):
+                if player[2].coins >= 10:
+                    player[2].health_pot += 1
+                    player[2].coins -= 10
+                else:
+                    fnt = pygame.font.SysFont('centaur', 22)
+                    drawText("You don't have enough coins.",fnt,windowSurface,pos[0]-50,pos[1]-100,TEXTCOLOR)
+            elif pots[1][1].collidepoint(pos):
+                if player[2].coins >= 20:
+                    player[2].coins -= 20
+                    player[2].str_pot = 3
+                    player[2].strength += 30
+                else:
+                    fnt = pygame.font.SysFont('centaur', 22)
+                    drawText("You don't have enough coins.",fnt,windowSurface,pos[0]-50,pos[1]-100,TEXTCOLOR)
+            elif pots[2][1].collidepoint(pos):
+                if player[2].coins >= 20:
+                    player[2].coins -= 20
+                    player[2].dex_pot = 3
+                    player[2].dexterity += 30
+                else:
+                    fnt = pygame.font.SysFont('centaur', 22)
+                    drawText("You don't have enough coins.",fnt,windowSurface,pos[0]-50,pos[1]-100,TEXTCOLOR)
+            elif pots[3][1].collidepoint(pos):
+                if player[2].coins >= 20:
+                    player[2].coins -= 20
+                    player[2].int_pot = 3
+                    player[2].intellect += 30
+                else:
+                    fnt = pygame.font.SysFont('centaur', 22)
+                    drawText("You don't have enough coins.",fnt,windowSurface,pos[0]-50,pos[1]-100,TEXTCOLOR)
+            elif pots[4][1].collidepoint(pos):
+                if player[2].coins >= 20:
+                    player[2].coins -= 20
+                    player[2].stam_pot = 3
+                    player[2].stamina += 30
+                else:
+                    fnt = pygame.font.SysFont('centaur', 22)
+                    drawText("You don't have enough coins.",fnt,windowSurface,pos[0]-50,pos[1]-100,TEXTCOLOR)
+            if exit_sn[1].collidepoint(pos):
+                break
+        pygame.display.update()
+    pygame.event.set_grab(False)
+    #time.sleep(5)
     
 def battle(place,player,enemy):
     alive = [True,True,True]
@@ -548,7 +667,9 @@ def battle(place,player,enemy):
                     if player[2].health_pot >= 1:
                         player[2].f_potion()
                         player[2].health_pot -= 1
-                        player[2].health = player[2].stamina*10
+                        player[2].health += player[2].stamina*5
+                        if player[2].health > player[2].stamina*10:
+                            player[2].health = player[2].stamina*10
                         drawText('You healed to full!', font, windowSurface, 0, 0,(255,255,255))
                     else:
                         drawText('You have no potions left.',font,windowSurface,0,0,(255,255,255))
@@ -600,22 +721,40 @@ def pick_enemy(enemies):
     data = [enemyImage,enemyRect,enemyType]
     return data
 
-def all_enemies(enemies,locations,difficulty):
+def all_enemies(enemies,locations,difficulty,num):
     if difficulty == 1:
-        rand = random.randint(4,8)
+        rand = random.randint(2,3)
     elif difficulty == 2:
-        rand = random.randint(9,15)
+        rand = random.randint(5,7)
     elif difficulty == 3:
-        rand = random.randint(16,23)
+        rand = random.randint(7,9)
     all_enemies = []
     x = 0
     while x != rand:
         all_enemies.append(pick_enemy(enemies))
-        loc = random.randint(0,len(locations)-1)
-        all_enemies[x][1].topleft = locations[loc]
-        locations.remove(locations[loc])
+        loc = random.randint(0,len(locations[num])-1)
+        #print len(locations[num])
+        all_enemies[x][1].topleft = locations[num][loc]
+        locations[num].remove(locations[num][loc])
         x += 1
     return all_enemies
+
+def coin_drops():
+    map_coins = []
+    coins = []
+    locations = [(120,20),(240,20),(360,20),(480,20),(600,20),(720,20),(0,130),(120,130),(240,130),(360,130),(480,130),(600,130),(720,130),(0,260),(120,260),(240,260),(360,260),(480,260),(600,260),(720,260),(0,390),(120,390),(240,390),(360,390),(480,390),(600,390),(720,390)]
+    for j in range(random.randint(0,5)):
+        thecoin = coin()
+        thecoin.append(random.randint(1,5))
+        thecoin[1].topleft = locations[random.randint(0,len(locations)-1)]
+        coins.append(thecoin)
+    return coins
+
+def map_enemies(enemies,locations,difficulty):
+    map_enemies = []
+    for i in range(5):
+        map_enemies.append(all_enemies(enemies,locations,difficulty,i))
+    return map_enemies
 
 def choose_difficulty():
     windowSurface.blit(dragonia[0],dragonia[1])
@@ -729,6 +868,12 @@ def draw_enemies(the_enemies):
         windowSurface.blit(the_enemies[i][0],the_enemies[i][1])
         i += 1
         #pygame.display.update()
+
+def draw_potions(potions):
+    drawText('Potions: {0}'.format(int(potions)),pygame.font.SysFont('centaur', 30),windowSurface,0,0,(255,255,255))
+
+def draw_coins(coins):
+    drawText('Coins: {0}'.format(int(coins)),pygame.font.SysFont('centaur', 30),windowSurface,150,0,(255,255,255))
 
 def loot(enemy):
     rand = random.randint(0,100)
@@ -1065,7 +1210,14 @@ def loot(enemy):
         data = [lootImage,lootRect,False,'Nothing']
     return data
 
+def choose_map(maps,num):
+    MapImage = pygame.image.load(maps[num])
+    MapRect = MapImage.get_rect()
+    data = [MapImage,MapRect]
+    return data
+
 pygame.init()
+pygame.FULLSCREEN
 mainClock = pygame.time.Clock()
 windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 pygame.display.set_caption('Dragonia')
@@ -1086,14 +1238,28 @@ enemies = ['ogre.png','snake.png','gargoyle_dragonia.png','dragon.png','cyclops_
 #enemy = pick_enemy(enemies)
 
 #set up load screen
-dragonia = dragonia()
+#dragonia = dragonia()
 #test
 #the_enemies = all_enemies(enemies,locations)
 #topScore = 0
+bg_map = ['default.png','map_up.png','map_down.png','map_left.png','map_right.png']
+the_shop = shop_pic()
+the_shop[1].topleft = (400,180)
+cur_map = [[],[]]
+cur_map[0] = choose_map(bg_map,0)
+cur_map[1] = 0
+dragonia = dragonia()
+windowSurface.blit(dragonia[0],dragonia[1])
+coins = []
 while True:
     # set up the start of the game
     drop = False
-    locations = [(120,20),(240,20),(360,20),(480,20),(600,20),(720,20),(0,130),(120,130),(240,130),(360,130),(480,130),(600,130),(720,130),(0,260),(120,260),(240,260),(360,260),(480,260),(600,260),(720,260),(0,390),(120,390),(240,390),(360,390),(480,390),(600,390),(720,390)]
+    default_locs = [(120,20),(240,20),(360,20),(480,20),(600,20),(720,20),(0,130),(120,130),(240,130),(360,130),(480,130),(600,130),(720,130),(0,260),(120,260),(240,260),(360,260),(480,260),(600,260),(720,260),(0,390),(120,390),(240,390),(360,390),(480,390),(600,390),(720,390)]
+    up_locs = [(120,20),(240,20),(360,20),(480,20),(600,20),(720,20),(0,130),(120,130),(240,130),(360,130),(480,130),(600,130),(720,130),(0,260),(120,260),(240,260),(360,260),(480,260),(600,260),(720,260),(0,390),(120,390),(240,390),(360,390),(480,390),(600,390),(720,390)]
+    down_locs = [(120,20),(240,20),(360,20),(480,20),(600,20),(720,20),(0,130),(120,130),(240,130),(360,130),(480,130),(600,130),(720,130),(0,260),(120,260),(240,260),(360,260),(480,260),(600,260),(720,260),(0,390),(120,390),(240,390),(360,390),(480,390),(600,390),(720,390)]
+    left_locs = [(120,20),(240,20),(360,20),(480,20),(600,20),(720,20),(0,130),(120,130),(240,130),(360,130),(480,130),(600,130),(720,130),(0,260),(120,260),(240,260),(360,260),(480,260),(600,260),(720,260),(0,390),(120,390),(240,390),(360,390),(480,390),(600,390),(720,390)]
+    right_locs = [(120,20),(240,20),(360,20),(480,20),(600,20),(720,20),(0,130),(120,130),(240,130),(360,130),(480,130),(600,130),(720,130),(0,260),(120,260),(240,260),(360,260),(480,260),(600,260),(720,260),(0,390),(120,390),(240,390),(360,390),(480,390),(600,390),(720,390)]
+    map_locations = [default_locs,up_locs,down_locs,left_locs,right_locs]
     score = 0
     moveLeft = moveRight = moveUp = moveDown = False
     pygame.mixer.music.load('background_.ogg')
@@ -1105,16 +1271,19 @@ while True:
     player[1].topleft = (0,20)
     difficulty = choose_difficulty()
     room = class_abilities(player)
+    for l in range(5):
+        coins.append(coin_drops())
     if room == True:
         pygame.mixer.music.stop()
         pygame.mixer.music.load('room_music.wav')
         pygame.mixer.music.play(-1, 0.0)
-    the_enemies = all_enemies(enemies,locations,difficulty)
+    the_map_enemies =  map_enemies(enemies,map_locations,difficulty)
     you_win = False
     leveled = False
     while True: # the game loop runs while the game part is playing
         #score += 1 # increase score
 
+       
         for event in pygame.event.get():
             if event.type == QUIT:
                 terminate()
@@ -1148,38 +1317,93 @@ while True:
         # Move the player around.
         if moveLeft and player[1].left > 0:
             player[1].move_ip(-1 * PLAYERMOVERATE, 0)
+        elif moveLeft and player[1].left <= 0 and cur_map[1] == 0:
+            cur_map[0] = choose_map(bg_map,3)
+            cur_map[1] = 3
+            curlc = player[1].topleft
+            player[1].topleft = (curlc[0]+794,curlc[1])
+        elif moveLeft and player[1].left <= 0 and cur_map[1] == 4:
+            cur_map[0] = choose_map(bg_map,0)
+            cur_map[1] = 0
+            curlc = player[1].topleft
+            player[1].topleft = (curlc[0]+794,curlc[1])
         if moveRight and player[1].right < WINDOWWIDTH:
             player[1].move_ip(PLAYERMOVERATE, 0)
+        elif moveRight and player[1].right >= WINDOWWIDTH and cur_map[1] == 3:
+            cur_map[0] = choose_map(bg_map,0)
+            cur_map[1] = 0
+            curlc = player[1].topleft
+            player[1].topleft = (curlc[0]-794,curlc[1])
+        elif moveRight and player[1].right >= WINDOWWIDTH and cur_map[1] == 0:
+            cur_map[0] = choose_map(bg_map,4)
+            cur_map[1] = 4
+            curlc = player[1].topleft
+            player[1].topleft = (curlc[0]-794,curlc[1])
         if moveUp and player[1].top > 0:
             player[1].move_ip(0, -1 * PLAYERMOVERATE)
+        elif moveUp and player[1].top <= 0 and cur_map[1] == 0:
+            cur_map[0] = choose_map(bg_map,1)
+            cur_map[1] = 1
+            curlc = player[1].topleft
+            player[1].topleft = (curlc[0],curlc[1]+392)
+        elif moveUp and player[1].top <= 0 and cur_map[1] == 2:
+            cur_map[0] = choose_map(bg_map,0)
+            cur_map[1] = 0
+            curlc = player[1].topleft
+            player[1].topleft = (curlc[0],curlc[1]+392)
         if moveDown and player[1].bottom < WINDOWHEIGHT:
             player[1].move_ip(0, PLAYERMOVERATE)
+        elif moveDown and player[1].bottom >= WINDOWHEIGHT and cur_map[1] == 0:
+            cur_map[0] = choose_map(bg_map,2)
+            cur_map[1] = 2
+            curlc = player[1].topleft
+            player[1].topleft = (curlc[0],curlc[1]-392)
+        elif moveDown and player[1].bottom >= WINDOWHEIGHT and cur_map[1] == 1:
+            cur_map[0] = choose_map(bg_map,0)
+            cur_map[1] = 0
+            curlc = player[1].topleft
+            player[1].topleft = (curlc[0],curlc[1]-392)
 
        
         # Draw the game world on the window.
         #windowSurface.fill(BACKGROUNDCOLOR)
-        windowSurface.blit(dragonia[0],dragonia[1])
-        
+        windowSurface.blit(cur_map[0][0],cur_map[0][1])
+        if cur_map[1] == 0:
+            windowSurface.blit(the_shop[0],the_shop[1])
+        for z in range(len(coins[cur_map[1]])-1):
+            windowSurface.blit(coins[cur_map[1]][z][0], coins[cur_map[1]][z][1])
         # Draw the player's rectangle
         windowSurface.blit(player[0], player[1])
-        draw_enemies(the_enemies)
+        draw_enemies(the_map_enemies[cur_map[1]])
         if drop != False:
                 windowSurface.blit(the_drop[0],the_drop[1])
                 #time.sleep(2)
         # add health above enemies and players
         player_health(player[2].health,player,player[2].shield)
+        if cur_map[1] == 0 and player[1].colliderect(the_shop[1]):
+            moveLeft = moveRight = moveUp = moveDown = False
+            shop(player)
+        for k in range(len(coins[cur_map[1]])-1):
+            if player[1].colliderect(coins[cur_map[1]][k][1]):
+                player[2].coins += coins[cur_map[1]][k][2]
+                coins[cur_map[1]].remove(coins[cur_map[1]][k])
         j = 0
-        while j!= len(the_enemies):
-            if player[2].lvl > 1 and leveled == True:
-                the_enemies[j][2].health += player[2].lvl*25*difficulty
-                if difficulty == 1:
-                    the_enemies[j][2].mod = 0.75
-                elif difficulty == 3:
-                    the_enemies[j][2].mod = 1.25
-                the_enemies[j][2].miss -= 1
-            enemy_health(the_enemies[j][2].health,the_enemies[j])
-            j += 1
+        for x in range(5):
+            while j!= len(the_map_enemies[x]):
+                if player[2].lvl > 1 and leveled == True:
+                    the_map_enemies[x][j][2].health += player[2].lvl*25*difficulty
+                    if difficulty == 1:
+                        the_map_enemies[x][j][2].mod = 0.75
+                    elif difficulty == 3:
+                        the_map_enemies[x][j][2].mod = 1.25
+                    the_map_enemies[x][j][2].miss -= 1
+                j += 1
+            j = 0
         leveled = False
+        for y in range(len(the_map_enemies[cur_map[1]])):
+            enemy_health(the_map_enemies[cur_map[1]][y][2].health,the_map_enemies[cur_map[1]][y])
+        draw_potions(player[2].health_pot)
+        draw_coins(player[2].coins)
         if player[2].shield != 0:
                 if player[2].cls == 'mage':
                     ability2 = mage_shield()
@@ -1190,76 +1414,76 @@ while True:
                 windowSurface.blit(ability2[0],ability2[1])
                 
         # Check if any of the enemies have hit the player.
-        current_enemy = playerHasHitEnemy(player[1], the_enemies)
+        current_enemy = playerHasHitEnemy(player[1], the_map_enemies[cur_map[1]])
         if drop == True:
             picked_up_loot = player[1].colliderect(the_drop[1])
             if picked_up_loot:
                 drop = False
                 if the_drop[3] == 'sword':
-                    drawText('You found a Sword!',font,windowSurface,0,0,(0,0,0))
+                    drawText('You found a Sword!',font,windowSurface,300,250,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
                     waitForPlayerToPressKey(False)
                     player[2].f_sword()
                 if the_drop[3] == 'belt':
-                    drawText('You found a Belt!',font,windowSurface,0,0,(0,0,0))
+                    drawText('You found a Belt!',font,windowSurface,300,250,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
                     waitForPlayerToPressKey(False)
                     player[2].f_belt()
                 if the_drop[3] == 'cloak':
-                    drawText('You found a Cloak!',font,windowSurface,0,0,(0,0,0))
+                    drawText('You found a Cloak!',font,windowSurface,300,250,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
                     waitForPlayerToPressKey(False)
                     player[2].f_cloak()
                 if the_drop[3] == 'eye':
-                    drawText('You found the Cyclops\' eye!',font,windowSurface,0,0,(0,0,0))
+                    drawText('You found the Cyclops\' eye!',font,windowSurface,300,250,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
                     waitForPlayerToPressKey(False)
                     player[2].f_eye()
                 if the_drop[3] == 'legendary':
-                    drawText('You found a LEGENDARY weapon.',font,windowSurface,0,0,(0,0,0))
+                    drawText('You found a LEGENDARY weapon.',font,windowSurface,300,250,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
                     waitForPlayerToPressKey(False)
                     player[2].f_legendary_weapon()
                 if the_drop[3] == 'trinket':
-                    drawText('You found a SHINY Ring.',font,windowSurface,0,0,(0,0,0))
+                    drawText('You found a SHINY Ring.',font,windowSurface,300,250,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
                     waitForPlayerToPressKey(False)
                     player[2].f_trinket()
                 if the_drop[3] == 'air':
-                    drawText('You found an Air Essence.',font,windowSurface,0,0,(0,0,0))
+                    drawText('You found an Air Essence.',font,windowSurface,300,250,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
                     waitForPlayerToPressKey(False)
                     player[2].f_air()
                 if the_drop[3] == 'earth':
-                    drawText('You found an Earth Essence.',font,windowSurface,0,0,(0,0,0))
+                    drawText('You found an Earth Essence.',font,windowSurface,300,250,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
                     waitForPlayerToPressKey(False)
                     player[2].f_earth()
                 if the_drop[3] == 'fire':
-                    drawText('You found a Fire Essence.',font,windowSurface,0,0,(0,0,0))
+                    drawText('You found a Fire Essence.',font,windowSurface,300,250,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
                     waitForPlayerToPressKey(False)
                     player[2].f_fire()
                 if the_drop[3] == 'water':
-                    drawText('You found a Water Essence.',font,windowSurface,0,0,(0,0,0))
+                    drawText('You found a Water Essence.',font,windowSurface,300,250,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
@@ -1268,32 +1492,32 @@ while True:
         player_health(player[2].health,player,player[2].shield)
         pygame.display.update()
         if current_enemy != -1:
-            loot_drop = the_enemies[current_enemy][1].topleft
+            loot_drop = the_map_enemies[cur_map[1]][current_enemy][1].topleft
             loot_drop = (loot_drop[0]+20,loot_drop[1]+20)
             moveLeft = moveRight = moveUp = moveDown = False
             drawText('You have encountered an enemy! Prepare to fight!',font,windowSurface,0,0,(0,0,0))
             pygame.display.update()
             time.sleep(1)
-            alive = battle(place(),player,the_enemies[current_enemy])
+            alive = battle(place(),player,the_map_enemies[cur_map[1]][current_enemy])
             if alive[0] == False:
                 break
             elif alive[1] == False:
                 #print the_enemies
                 #print current_enemy
                 #print the_enemies[current_enemy]
-                the_drop = loot(the_enemies[current_enemy])
+                the_drop = loot(the_map_enemies[cur_map[1]][current_enemy])
                 if the_drop[2] == True:
                     drop = True
                     the_drop[1].topleft = loot_drop
                 else:
                     drop = False
-                the_enemies.remove(the_enemies[current_enemy])
+                the_map_enemies[cur_map[1]].remove(the_map_enemies[cur_map[1]][current_enemy])
                 leveled = True
-                if the_enemies == []:
+                if the_map_enemies == []:
                     you_win = True
                     break
             LowHPSound.stop()
-            draw_enemies(the_enemies)
+            draw_enemies(the_map_enemies[1])
             if drop != False:
                 windowSurface.blit(the_drop[0],the_drop[1])
                 #time.sleep(2)

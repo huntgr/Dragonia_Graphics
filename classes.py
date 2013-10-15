@@ -24,7 +24,12 @@ class swashbuckler:
     def __init__(self,name):
         self.cls = 'swashbuckler'
         self.dead = 0
+        self.coins = 0
         self.health_pot = 2
+        self.dex_pot = 0
+        self.int_pot = 0
+        self.str_pot = 0
+        self.stam_pot = 0
         self.name = name
         self.stamina = 15
         self.wisdom = 6
@@ -190,7 +195,12 @@ class warlock:
     def __init__(self,name):
         self.cls = 'warlock'
         self.dead = 0
+        self.coins = 0
         self.health_pot = 2
+        self.dex_pot = 0
+        self.int_pot = 0
+        self.str_pot = 0
+        self.stam_pot = 0
         self.name = name
         self.stamina = 14
         self.wisdom = 15
@@ -344,7 +354,12 @@ class mage:
     def __init__(self,name):
         self.cls = 'mage'
         self.dead = 0
+        self.coins = 0
         self.health_pot = 2
+        self.dex_pot = 0
+        self.int_pot = 0
+        self.str_pot = 0
+        self.stam_pot = 0
         self.name = name
         self.stamina = 8
         self.wisdom = 19
@@ -484,7 +499,12 @@ class warrior:
     def __init__(self,name):
         self.cls = 'warrior'
         self.dead = 0
+        self.coins = 0
         self.health_pot = 2
+        self.dex_pot = 0
+        self.int_pot = 0
+        self.str_pot = 0
+        self.stam_pot = 0
         self.name = name
         self.stamina = 17
         self.wisdom = 7
@@ -646,7 +666,12 @@ class cleric:
     def __init__(self,name):
         self.cls = 'cleric'
         self.dead = 0
+        self.coins = 0
         self.health_pot = 2
+        self.dex_pot = 0
+        self.int_pot = 0
+        self.str_pot = 0
+        self.stam_pot = 0
         self.name = name
         self.stamina = 15
         self.wisdom = 10
