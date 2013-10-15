@@ -123,15 +123,21 @@ def damage(enemy,player,alive):
          player_alive = True
          enemy_alive = False
          combat = False
+         if enemy.name == 'final':
+             final = False
+         else:
+             final = True
     elif player.health <= 0:
         player_alive = False
         enemy_alive = True
         combat = False
+        final = True
     else:
         player_alive = True
         enemy_alive = True
         combat = True
-    alive =  [player_alive,enemy_alive,combat]
+        final = True
+    alive =  [player_alive,enemy_alive,combat,final]
     return alive
 
 def player_health(health,player,shield):
@@ -229,6 +235,15 @@ def alt_mage():
     altImage = pygame.image.load('mage_minion(alt)_dragonia.png')
     altRect = altImage.get_rect()
     data = [altImage,altRect]
+    return data
+
+def final_boss(locations,screen):
+    img = pygame.image.load('final_boss.png')
+    rect = img.get_rect()
+    rand = random.randint(0,len(locations)-1)
+    rect.topleft = locations[rand]
+    enemy = fierce_dragon()
+    data = [img,rect,enemy,screen]
     return data
 
 def mage_with_minion(fireball,place,enemy_place,plyr,enemy,player,en_attack,min_attack):
@@ -715,6 +730,7 @@ def battle(place,player,enemy):
         elif player[2].cls == 'swashbuckler':
             swashbuckler_battle(place,enemy_place,plyr,enemy,player,en_attack)
         if alive[0] == True and alive[1] == False:
+            pot_check(player)
             player[2].lvl += 1
             level_up(player)
             #player_health(player[2].health,plyr,player[2].shield)
@@ -770,7 +786,7 @@ def coin_drops():
     locations = [(120,20),(240,20),(360,20),(480,20),(600,20),(720,20),(0,130),(120,130),(240,130),(360,130),(480,130),(600,130),(720,130),(0,260),(120,260),(240,260),(360,260),(480,260),(600,260),(720,260),(0,390),(120,390),(240,390),(360,390),(480,390),(600,390),(720,390)]
     for j in range(random.randint(0,5)):
         thecoin = coin()
-        thecoin.append(random.randint(1,5))
+        thecoin.append(random.randint(2,8))
         thecoin[1].topleft = locations[random.randint(0,len(locations)-1)]
         coins.append(thecoin)
     return coins
@@ -1321,6 +1337,7 @@ while True:
     right_locs = [(120,20),(240,20),(360,20),(480,20),(600,20),(720,20),(0,130),(120,130),(240,130),(360,130),(480,130),(600,130),(720,130),(0,260),(120,260),(240,260),(360,260),(480,260),(600,260),(720,260),(0,390),(120,390),(240,390),(360,390),(480,390),(600,390),(720,390)]
     map_locations = [default_locs,up_locs,down_locs,left_locs,right_locs]
     score = 0
+    cur_map[1] = 0
     moveLeft = moveRight = moveUp = moveDown = False
     pygame.mixer.music.load('background_.ogg')
     pygame.mixer.music.play(-1, 0.0)
@@ -1338,6 +1355,8 @@ while True:
         pygame.mixer.music.load('room_music.wav')
         pygame.mixer.music.play(-1, 0.0)
     the_map_enemies =  map_enemies(enemies,map_locations,difficulty)
+    final_map = random.randint(0,4)
+    boss = final_boss(map_locations[final_map],final_map)
     you_win = False
     leveled = False
     while True: # the game loop runs while the game part is playing
@@ -1435,6 +1454,15 @@ while True:
         # Draw the player's rectangle
         windowSurface.blit(player[0], player[1])
         draw_enemies(the_map_enemies[cur_map[1]])
+        if cur_map[1] == boss[3]:
+            windowSurface.blit(boss[0],boss[1])
+            if player[1].colliderect(boss[1]):
+                alive = battle(place(),player,boss)
+                if alive[0] == False:
+                    break
+                elif alive[3] == False:
+                    you_win = True
+                    break
         if drop != False:
                 windowSurface.blit(the_drop[0],the_drop[1])
                 #time.sleep(2)
@@ -1447,14 +1475,16 @@ while True:
             if player[1].colliderect(coins[cur_map[1]][k][1]):
                 player[2].coins += coins[cur_map[1]][k][2]
                 coins[cur_map[1]].remove(coins[cur_map[1]][k])
+                break
         j = 0
         for x in range(5):
             while j!= len(the_map_enemies[x]):
                 if player[2].lvl > 1 and leveled == True:
                     the_map_enemies[x][j][2].health += player[2].lvl*25*difficulty
-                    if difficulty == 1:
+                    the_map_enemies[x][j][2].mod += .05
+                    if difficulty == 1 and player[2].lvl == 1:
                         the_map_enemies[x][j][2].mod = 0.75
-                    elif difficulty == 3:
+                    elif difficulty == 3 and player[2].lvl == 1:
                         the_map_enemies[x][j][2].mod = 1.25
                     the_map_enemies[x][j][2].miss -= 1
                 j += 1
@@ -1480,12 +1510,12 @@ while True:
             if picked_up_loot:
                 drop = False
                 if the_drop[3] == 'coin':
-                    drawText('You found a Coin!',font,windowSurface,300,250,(0,0,0))
+                    drawText('You found some Coins!',font,windowSurface,300,250,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
                     pygame.display.update()
                     moveLeft = moveRight = moveUp = moveDown = False
                     waitForPlayerToPressKey(False)
-                    player[2].coins += random.randint(1,8) 
+                    player[2].coins += random.randint(4,15) 
                 if the_drop[3] == 'sword':
                     drawText('You found a Sword!',font,windowSurface,300,250,(0,0,0))
                     drawText('Press ENTER to continue!',font,windowSurface,0,25,(0,0,0))
@@ -1568,11 +1598,10 @@ while True:
             alive = battle(place(),player,the_map_enemies[cur_map[1]][current_enemy])
             if alive[0] == False:
                 break
-            elif alive[1] == False:
+            elif alive[1] == False and alive[3] != False:
                 #print the_enemies
                 #print current_enemy
                 #print the_enemies[current_enemy]
-                pot_check(player)
                 the_drop = loot(the_map_enemies[cur_map[1]][current_enemy])
                 if the_drop[2] == True:
                     drop = True
@@ -1581,9 +1610,6 @@ while True:
                     drop = False
                 the_map_enemies[cur_map[1]].remove(the_map_enemies[cur_map[1]][current_enemy])
                 leveled = True
-                if the_map_enemies == []:
-                    you_win = True
-                    break
             LowHPSound.stop()
             draw_enemies(the_map_enemies[1])
             if drop != False:

@@ -20,6 +20,84 @@ def drawText(text, font, surface, x, y, color):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
+class fierce_dragon:
+    def __init__(self):
+        self.name = 'final'
+        self.health = 25000
+        self.stamina = 2500
+        self.damage = 0
+        self.miss = 0
+        self.last = -1
+        self.mod = 1
+        self.alive = True
+        self.dict = ['SMASHES','HITS','CRUSHES','OBLITERATES','SCRAPES','BARELY HITS','CRITS','misses']
+        self.attack = pygame.mixer.Sound('dragon.wav')
+        self.death = pygame.mixer.Sound('dragon_death.wav')
+    def f_ability0(self):
+        ability = random.randint(0,4)
+        if self.last == 2:
+            damage = random.randint(500,1000)
+            self.last = -1
+            dam = str(damage)
+            drawText('The Fierce Dragon breathes FIRE!',font,windowSurface,TEXT,0,TEXTCOLOR)
+            print 'The Fierce Dragon breathes FIRE!'
+        elif self.last == 0:
+            damage = random.randint(200,300)
+            self.last = -1
+            dam = str(damage)
+            drawText('The Fierce Dragon Swoops down on you.',font,windowSurface,TEXT,0,TEXTCOLOR)
+            print 'The Fierce Dragon Swoops down on you.'
+        elif ability == 0:
+            damage = 0
+            self.last = 0
+            self.damage = 0
+            dam = str(damage)
+            drawText('The Fierce Dragon flies up high.',font,windowSurface,TEXT,0,TEXTCOLOR)
+            print "The Fierce Dragon flies up high"
+        elif ability == 1:
+            damage = random.randint(75,150)
+            self.last = 1
+            dam = str(damage)
+            drawText('The Fierce Dragon swipes you with his claws.',font,windowSurface,TEXT,0,TEXTCOLOR)
+            print 'The Fierce Dragon swipes you with his claws.'
+        elif ability == 2:
+            damage = 0
+            self.last = 2
+            dam = str(damage)
+            drawText('The Fierce Dragon takes a deep breath.',font,windowSurface,TEXT,0,TEXTCOLOR)
+            print 'The Fierce Dragon takes a deep breath.'
+        elif ability == 3:
+            damage = random.randint(15,70)
+            self.last = 3
+            dam = str(damage)
+            drawText('The Fierce Dragon pins you to the ground and mocks you.',font,windowSurface,TEXT,0,TEXTCOLOR)
+            print 'The Fierce Dragon pins you to the ground and mocks you.'
+        elif ability == 4:
+            damage = random.randint(1,1000)
+            self.last = 4
+            dam = str(damage)
+            drawText('The Fierce Dragon BITES you.',font,windowSurface,TEXT,0,TEXTCOLOR)
+            print 'The Fierce Dragon BITES you.'
+        crit = random.randrange(1,6)
+        if self.last == 0 or self.last == 2:
+            drawText('The Fierce Dragon will attack for massive damage next turn',font,windowSurface,TEXT,25,TEXTCOLOR)
+            print "The Fierce Dragon will attack for massive damage next turn".format(self.damage)
+        elif crit >= 4:
+            crit = damage*2
+            self.damage = crit
+            dam = str(crit)
+            drawText('The Fierce Dragon CRITS you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
+            print "The Fierce Dragon CRITS you for {0} damage".format(self.damage)
+        else:
+            self.damage = damage
+            dam = str(self.damage)
+            drawText('The Fierce Dragon hits you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
+            print "The Fierce Dragon hits for {0} damage".format(self.damage)
+    def f_attack(self):
+        self.attack.play()
+    def f_death(self):
+        self.death.play()
+        
 class zombie:
     def __init__(self):
         self.name = 'zombie'
