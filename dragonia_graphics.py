@@ -1357,6 +1357,19 @@ while True:
     the_map_enemies =  map_enemies(enemies,map_locations,difficulty)
     final_map = random.randint(0,4)
     boss = final_boss(map_locations[final_map],final_map)
+    if difficulty == 1:
+        boss[2].stamina *= 0.5
+        boss[2].health = boss[2].stamina * 10
+        boss[2].mod = 0.15
+        print boss[2].mod
+    elif difficulty == 2:
+        boss[2].stamina *= 1.0
+        boss[2].health = boss[2].stamina * 10
+        boss[2].mod = .75
+    else:
+        boss[2].stamina *= 1.2
+        boss[2].health = boss[2].stamina * 10
+        boss[2].mod = 1.0
     you_win = False
     leveled = False
     while True: # the game loop runs while the game part is playing
@@ -1456,6 +1469,7 @@ while True:
         draw_enemies(the_map_enemies[cur_map[1]])
         if cur_map[1] == boss[3]:
             windowSurface.blit(boss[0],boss[1])
+            drawText(str(boss[2].health),font,windowSurface,boss[1][0]+25,boss[1][1]-25,(255,0,0))
             if player[1].colliderect(boss[1]):
                 alive = battle(place(),player,boss)
                 if alive[0] == False:

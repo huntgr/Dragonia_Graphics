@@ -36,13 +36,13 @@ class fierce_dragon:
     def f_ability0(self):
         ability = random.randint(0,4)
         if self.last == 2:
-            damage = random.randint(500,1000)
+            damage = random.randint(500,1000)*self.mod
             self.last = -1
             dam = str(damage)
             drawText('The Fierce Dragon breathes FIRE!',font,windowSurface,TEXT,0,TEXTCOLOR)
             print 'The Fierce Dragon breathes FIRE!'
         elif self.last == 0:
-            damage = random.randint(200,300)
+            damage = random.randint(200,300)*self.mod
             self.last = -1
             dam = str(damage)
             drawText('The Fierce Dragon Swoops down on you.',font,windowSurface,TEXT,0,TEXTCOLOR)
@@ -55,7 +55,7 @@ class fierce_dragon:
             drawText('The Fierce Dragon flies up high.',font,windowSurface,TEXT,0,TEXTCOLOR)
             print "The Fierce Dragon flies up high"
         elif ability == 1:
-            damage = random.randint(75,150)
+            damage = random.randint(75,150)*self.mod
             self.last = 1
             dam = str(damage)
             drawText('The Fierce Dragon swipes you with his claws.',font,windowSurface,TEXT,0,TEXTCOLOR)
@@ -67,13 +67,13 @@ class fierce_dragon:
             drawText('The Fierce Dragon takes a deep breath.',font,windowSurface,TEXT,0,TEXTCOLOR)
             print 'The Fierce Dragon takes a deep breath.'
         elif ability == 3:
-            damage = random.randint(15,70)
+            damage = random.randint(15,70)*self.mod
             self.last = 3
             dam = str(damage)
             drawText('The Fierce Dragon pins you to the ground and mocks you.',font,windowSurface,TEXT,0,TEXTCOLOR)
             print 'The Fierce Dragon pins you to the ground and mocks you.'
         elif ability == 4:
-            damage = random.randint(1,1000)
+            damage = random.randint(1,1000)*self.mod
             self.last = 4
             dam = str(damage)
             drawText('The Fierce Dragon BITES you.',font,windowSurface,TEXT,0,TEXTCOLOR)
@@ -117,14 +117,14 @@ class zombie:
             self.last = 0
             dam = str(damage)
             drawText('The Zombie spews flesh on you.',font,windowSurface,TEXT,0,TEXTCOLOR)
-            print "The Zombie smashes you with his fist"
+            print "The Zombie spews flesh on you."
         elif ability == 2:
             damage = random.randint(20,30)*self.mod
             self.last = 1
             self.damage = damage
             dam = str(damage)
             drawText('The Zombie bites you.',font,windowSurface,TEXT,0,TEXTCOLOR)
-            print "The Zombie bites you"
+            print "The Zombie bites you."
         crit = random.randrange(1,10)
         miss = random.randrange(1,100)
         if miss <= self.miss:
@@ -136,12 +136,12 @@ class zombie:
             self.damage = crit
             dam = str(crit)
             drawText('The Zombie CRITS you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
-            print "The Gargantuan CRITS you for {0} damage".format(self.damage)
+            print "The Zombie CRITS you for {0} damage".format(self.damage)
         else:
             self.damage = damage
             dam = str(self.damage)
             drawText('The Zombie hits you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
-            print "The Zombie {0} for {1} damage".format(self.dict[random.randrange(0,6)],self.damage)
+            print "The Zombie hits for {0} damage".format(self.damage)
     def f_attack(self):
         self.attack.play()
     def f_death(self):
@@ -190,7 +190,7 @@ class gargantuan:
             self.damage = damage
             dam = str(self.damage)
             drawText('The Gargantuan hits you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
-            print "The Gargantuan {0} for {1} damage".format(self.dict[random.randrange(0,6)],self.damage)
+            print "The Gargantuan hits for {0} damage".format(self.damage)
     def f_attack(self):
         self.attack.play()
     def f_death(self):
@@ -220,7 +220,7 @@ class cyclops:
             self.damage = 0
             dam = str(damage)
             drawText('The cyclops is disoriented.',font,windowSurface,TEXT,0,TEXTCOLOR)
-            print "The cyclops is disoriented and just looks at you funny"
+            print "The cyclops is disoriented."
         crit = random.randrange(1,10)
         miss = random.randrange(1,100)
         if miss <= self.miss and ability != 2:
@@ -238,7 +238,7 @@ class cyclops:
                 self.damage = damage
                 dam = str(self.damage)
                 drawText('The cyclops hits you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
-                print "The cyclops {0} for {1} damage".format(self.dict[random.randrange(0,6)],self.damage)
+                print "The cyclops hits for {0} damage".format(self.damage)
     def f_attack(self):
         self.attack.play()
     def f_death(self):
@@ -266,7 +266,7 @@ class ogre:
                 miss = self.miss + 1
                 self.last = 0
                 drawText('The ogre smashes you to the ground ',font,windowSurface,TEXT,0,TEXTCOLOR)
-                print "The Ogre smashes you to the ground with full force!"
+                print "The Ogre smashes you to the ground."
             else:
                 damage = random.randrange(17,30)*self.mod
                 drawText('The ogre stakes a swing with his club!',font,windowSurface,TEXT,0,TEXTCOLOR)
@@ -277,11 +277,11 @@ class ogre:
             self.last = 2
             self.damage = 0
             drawText('The ogre picks you up!',font,windowSurface,450,0,TEXTCOLOR)
-            print "The ogre picks you up and prepares to slam you to the ground"
+            print "The ogre picks you up!"
         else:
             damage = random.randrange(17,30)*self.mod
             dam = str(damage)
-            drawText('The ogre takes a swing with his club',font,windowSurface,TEXT,0,TEXTCOLOR)
+            drawText('The ogre takes a swing with his club!',font,windowSurface,TEXT,0,TEXTCOLOR)
             print "The Ogre takes a swing with his club!"
         if miss <= self.miss and self.last == 0:
             self.damage = 0
@@ -291,14 +291,14 @@ class ogre:
             crit = damage*2
             self.damage = crit
             dam = str(crit)
-            drawText('The ogre CRITS you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
+            drawText('The ogre CRITS you for '+dam+'damage.',font,windowSurface,TEXT,25,TEXTCOLOR)
             print "The ogre CRITS you for {0} damage".format(self.damage)
         else:
             if self.last == 0:
                 self.damage = damage
                 dam = str(self.damage)
                 drawText('The ogre hits you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
-                print "The ogre {0} for {1} damage".format(self.dict[random.randrange(0,6)],self.damage)
+                print "The ogre hits for {0} damage".format(self.damage)
     def f_attack(self):
         self.attack.play()
     def f_death(self):
@@ -333,9 +333,6 @@ class gargoyle:
             self.damage = 0
             drawText('The Gargoyle turns to stone, increasing health by '+str(100*self.mod*self.mod),font,windowSurface,TEXT,0,TEXTCOLOR)
             print "The gargoyle turns to stone, increasing his health by "+str(100*self.mod*self.mod)
-        else:
-            damage = random.randrange(30,45)*self.mod
-            print "The Gargoyle swipes you with his fierce claws!"
         if miss <= self.miss and ability != 2:
             self.damage = 0
             drawText('The Gargoyle MISSES you completely!',font,windowSurface,TEXT,25,TEXTCOLOR)
@@ -351,7 +348,7 @@ class gargoyle:
                 self.damage = damage
                 dam = str(self.damage)
                 drawText('The Gargoyle hits you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
-                print "The Gargoyle {0} for {1} damage".format(self.dict[random.randrange(0,6)],self.damage)
+                print "The Gargoyle hits for {0} damage".format(self.damage)
     def f_attack(self):
         self.attack.play()
     def f_death(self):
@@ -408,7 +405,7 @@ class dragon:
                 self.damage = damage
                 dam = str(self.damage)
                 drawText('The Dragon hits you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
-                print "The Dragon {0} for {1} damage".format(self.dict[random.randrange(0,6)],self.damage)
+                print "The Dragon hits for {0} damage".format(self.damage)
     def f_attack(self):
         self.attack.play()
     def f_death(self):
@@ -431,44 +428,41 @@ class giant_snake:
         crit = random.randrange(1,10)
         miss = random.randrange(1,100)
         ability = random.randint(0,1)
-        if ability == 0 or self.last == 1:
-            if self.counter >= 1:
-                damage = (random.randrange(17,35) + (10*self.mod))*self.mod
-                drawText('The Giant Snake attacks! His poison does an additional '+str(10*self.mod)+' damage.',font,windowSurface,300,0,TEXTCOLOR)
-                print 'The Giant Snake attacks! His poison does an additional '+str(10*self.mod)+' damage.'
-                self.counter -= 1
-            else:
-                damage = random.randrange(17,35)*self.mod
-                drawText('The Giant Snake attacks!',font,windowSurface,TEXT,0,TEXTCOLOR)
-                print "The Giant Snake attacks!"
+        if self.counter > 0:
+            damage = (random.randrange(17,35) + (10*self.mod))*self.mod
+            self.counter -= 1
+            drawText('The Giant Snake attacks!',font,windowSurface,TEXT,0,TEXTCOLOR)
+            print "The Giant Snake attacks!"
+            drawText('His poison does an additional '+str(10*self.mod)+' damage.',font,windowSurface,TEXT,25,TEXTCOLOR)
+            print 'His poison does an additional '+str(10*self.mod)+' damage.'   
+        elif ability == 0:
+            damage = random.randrange(17,35)*self.mod
             self.last = 0
-        elif ability == 1 and self.last != 1 and self.counter == 0:
+            drawText('The Giant Snake attacks!',font,windowSurface,TEXT,0,TEXTCOLOR)
+            print "The Giant Snake attacks!"    
+        elif ability == 1:
             damage = 0
             self.counter = 2
             self.last = 1
             self.damage = 0
+        if self.last == 1:
             drawText('The Giant Snake injects you with poison.',font,windowSurface,TEXT,0,TEXTCOLOR)
             print "The Giant Snake injects you with poison"
-        else:
-            damage = random.randrange(17,35)*self.mod
-            drawText('The Giant Snake attacks!',font,windowSurface,TEXT,0,TEXTCOLOR)
-            print "The Giant Snake attacks!"
-        if miss <= self.miss and self.last == 0:
+        elif miss <= self.miss:
             self.damage = 0
-            drawText('The Giant Snake MISSES you completely',font,windowSurface,TEXT,25,TEXTCOLOR)
+            drawText('The Giant Snake MISSES you completely',font,windowSurface,TEXT,50,TEXTCOLOR)
             print "The giant snake MISSES you completely!"
-        elif crit >= 9 and self.last == 0:
+        elif crit >= 9:
             crit = damage*2.5
             self.damage = crit
             dam = str(crit)
-            drawText('The Giant Snake CRITS you for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
+            drawText('The Giant Snake CRITS you for '+dam,font,windowSurface,TEXT,50,TEXTCOLOR)
             print "The giant snake CRITS you for {0}".format(self.damage)
         else:
-            if self.last == 0:
-                self.damage = damage
-                dam = str(self.damage)
-                drawText('The Giant Snake hits for '+dam,font,windowSurface,TEXT,25,TEXTCOLOR)
-                print "The giant snake {0} for {1} damage".format(self.dict[random.randrange(0,6)],self.damage)
+            self.damage = damage
+            dam = str(self.damage)
+            drawText('The Giant Snake hits for '+dam,font,windowSurface,TEXT,50,TEXTCOLOR)
+            print "The giant snake hits for {0} damage".format(self.damage)
     def f_attack(self):
         self.attack.play()
     def f_death(self):
