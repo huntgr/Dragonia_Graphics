@@ -31,7 +31,7 @@ class swashbuckler:
         self.str_pot = -1
         self.stam_pot = -1
         self.name = name
-        self.stamina = 150000
+        self.stamina = 15
         self.wisdom = 6
         self.intellect = 3
         self.dexterity = 25
